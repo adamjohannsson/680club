@@ -1,0 +1,8 @@
+# This file lets the Prettier CLI and editors know which files to not format.
+
+build
+src/test
+
+# We don't want to format JSON files
+# JSON formatting is up to the author : )
+*.json

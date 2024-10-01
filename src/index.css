@@ -7,8 +7,18 @@
 
 body {
   margin: 0;
-  font-family: 'Roboto Flex', -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family:
+    'Roboto Flex',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Roboto',
+    'Segoe UI',
+    'Oxygen',
+    'Ubuntu',
+    'Cantarell',
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
     sans-serif;
   font-weight: 500;
   -webkit-font-smoothing: antialiased;
@@ -19,4 +29,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
