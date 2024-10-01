@@ -35,7 +35,7 @@ function Login() {
             <div className="VerticalSpacer sm"></div>
             
             <Button 
-                text="Log in"
+                text="Log in 🚧"
                 textSize="sm"
                 textDisabled={"Send me a login link 🚧"}
                 disabled={!isValidEmail(email)}
