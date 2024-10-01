@@ -1,11 +1,7 @@
-function Button({ text, textSize, textDisabled, disabled }) {
-  return (
-    <div
-      className={`Button TextSize ${textSize} ${disabled ? 'disabled' : ''}`}
-    >
-      {disabled ? textDisabled || text : text}
-    </div>
-  );
+function Button({ text, textSize, textDisabled, disabled, onClick }) {
+    return (
+        <div className={`Button TextSize ${textSize} ${disabled ? "disabled" : ""}`} onClick={onClick}>{disabled ? textDisabled || text : text}</div>
+    );
 }
 
 export default Button;
