@@ -65,7 +65,28 @@ function Login() {
             />
         </div>
       </div>
-    );
-  }
-  
-  export default Login;
+
+      <div className="LoginRight">
+        <h2>Login or register</h2>
+
+        <TextInput
+          label="Your Email"
+          placeholder="Your Email"
+          value={email}
+          setValue={setEmail}
+        />
+
+        <div className="VerticalSpacer sm"></div>
+
+        <Button
+          text="Log in 🚧"
+          textSize="sm"
+          textDisabled={'Send me a login link 🚧'}
+          disabled={!isValidEmail(email)}
+        />
+      </div>
+    </div>
+  );
+}
+
+export default Login;
