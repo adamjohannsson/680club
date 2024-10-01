@@ -11,6 +11,11 @@ npm install
 npm start
 ```
 
+### Set your environment variables
+1. Go to .env.local.example
+2. Duplicate the file and rename to .env.local
+3. Update .env.local file with your own values
+
 ### Create new branch
 On your local app you can start making changes. At any point you can create a new branch.
 
