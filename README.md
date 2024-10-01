@@ -17,6 +17,7 @@ npm start
 ```
 
 ### Set your environment variables
+
 1. Go to .env.local.example
 2. Duplicate the file and rename to .env.local
 3. Update .env.local file with your own values
