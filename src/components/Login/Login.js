@@ -1,25 +1,25 @@
 import TextInput from '../Form/TextInput';
 import Button from '../Form/Button';
+import Card from '../Card/Card';
 import { useState } from 'react';
-import userPng from '../../assets/user.png';
 import { getAuth, sendSignInLinkToEmail } from 'firebase/auth';
 import { actionCodeSettings } from '../../utils/firebase.init';
+import { isValidEmail } from '../../utils/validators';
+import userPng from '../../assets/user.png';
 
 function Login() {
   const [email, setEmail] = useState('');
   const auth = getAuth();
 
   const handleLogin = () => {
-    if (!isValidEmail(email)) {
+    if (!isValidEmail({ email })) {
       return;
     }
 
-    console.log({ auth });
-
     sendSignInLinkToEmail(auth, email, actionCodeSettings)
+      // Link successfully sent. Inform User.
+      // Save email locally to not request again if User opens link on same device.
       .then(() => {
-        // Link successfully sent. Inform User.
-        // Save email locally to not request again if User opens link on same device.
         window.localStorage.setItem('emailForSignIn', email);
       })
       .catch((error) => {
@@ -27,52 +27,47 @@ function Login() {
       });
   };
 
-  // Add email validation function
-  // TODO: move this method to utils and import it here
-  const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
   return (
-    <div className="Login">
-      <div className="LoginLeft">
-        <div className="Typography highlight login-org-name">✨ 680 Club</div>
+    <Card>
+      <div className="Login">
+        <div className="LoginLeft">
+          <div className="Typography highlight login-org-name">✨ 680 Club</div>
 
-        <div className="VerticalSpacer xs" />
+          <div className="VerticalSpacer xs" />
 
-        <img
-          className="ImageLoginUser"
-          src={userPng}
-          alt="Satisfied customer"
-        />
+          <img
+            className="ImageLoginUser"
+            src={userPng}
+            alt="Satisfied customer"
+          />
 
-        <div className="VerticalSpacer xs" />
+          <div className="VerticalSpacer xs" />
 
-        <h3>Improve your credit score.</h3>
+          <h3>Improve your credit score.</h3>
+        </div>
+
+        <div className="LoginRight">
+          <h2>Login or register</h2>
+
+          <TextInput
+            label="Your Email"
+            placeholder="Your Email"
+            value={email}
+            setValue={setEmail}
+          />
+
+          <div className="VerticalSpacer sm"></div>
+
+          <Button
+            text="Log in"
+            textSize="sm"
+            onClick={handleLogin}
+            disabled={!isValidEmail({ email })}
+            textDisabled={'Send me a login link 🚧'}
+          />
+        </div>
       </div>
-
-      <div className="LoginRight">
-        <h2>Login or register</h2>
-
-        <TextInput
-          label="Your Email"
-          placeholder="Your Email"
-          value={email}
-          setValue={setEmail}
-        />
-
-        <div className="VerticalSpacer sm"></div>
-
-        <Button
-          text="Log in"
-          textSize="sm"
-          onClick={handleLogin}
-          disabled={!isValidEmail(email)}
-          textDisabled={'Send me a login link 🚧'}
-        />
-      </div>
-    </div>
+    </Card>
   );
 }
 

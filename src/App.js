@@ -1,10 +1,24 @@
 import './App.css';
-import Card from './components/Card/Card';
+import Login from './components/Login/Login';
+import NotFoundPage from './components/Global/NotFoundPage';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Login />,
+    errorElement: <NotFoundPage />,
+  },
+  {
+    path: '/finishSignUp',
+    element: <div>Finish your sign up 🚧</div>,
+  },
+]);
 
 function App() {
   return (
     <div className="App">
-      <Card></Card>
+      <RouterProvider router={router} />
     </div>
   );
 }

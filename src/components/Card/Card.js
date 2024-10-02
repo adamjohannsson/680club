@@ -1,9 +1,7 @@
-import Login from '../Login/Login';
-
-function Card() {
+function Card({ children }) {
   return (
     <div className="Card">
-      <Login></Login>
+      {children}
     </div>
   );
 }
