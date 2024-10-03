@@ -16,7 +16,8 @@ const app = initializeApp(firebaseConfig);
 const actionCodeSettings = {
   // URL where User lands after clicking link they get in their email.
   // URL must be in the authorized domains list in the Firebase Console.
-  url: 'https://club680.web.app/finishSignUp',
+  // TODO: change this for an environment variable
+  url: `https://${process.env.REACT_APP_DOMAIN}/login-finish-after-clicking-email-link`,
   // This must be true.
   handleCodeInApp: true,
   // iOS: {
