@@ -16,21 +16,19 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <PersonalInfo />,
-    errorElement: <NotFoundPage />,
-  },
-  {
-    path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/login-finish-after-clicking-email-link',
-    element: <LoginFinishAfterClickingEmailLink />,
-  },
-]);
+const createRouter = ({user}) => {
+  return createBrowserRouter([
+    {
+      path: '/',
+      element: (user) ? <PersonalInfo /> : <Navigate to="/login" />,
+      errorElement: <NotFoundPage />,
+    },
+    {
+      path: '/login-finish-after-clicking-email-link',
+      element: <LoginFinishAfterClickingEmailLink />,
+    },
+  ]);
+}
 
 const App = () => {
   const [user, loading] = useAuthState(auth);
@@ -40,16 +38,12 @@ const App = () => {
     return <Loading />;
   }
 
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
-
   return (
     <div>
-      <AppBar />
+      {user && <AppBar />}
 
       <div className="App">
-        <RouterProvider router={router} />
+        <RouterProvider router={createRouter({user})} />
       </div>
     </div>
   );
