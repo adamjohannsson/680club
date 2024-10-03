@@ -20,7 +20,7 @@ const createRouter = ({user}) => {
   return createBrowserRouter([
     {
       path: '/',
-      element: (user) ? <PersonalInfo /> : <Navigate to="/login" />,
+      element: (user) ? <PersonalInfo /> : <Login />,
       errorElement: <NotFoundPage />,
     },
     {
