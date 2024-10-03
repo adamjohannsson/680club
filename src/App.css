@@ -6,6 +6,26 @@
 }
 
 /* layout */
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flex.gap-xs {
+  gap: 4px;
+}
+.flex.gap-sm {
+  gap: 8px;
+}
+.flex.gap-md {
+  gap: 16px;
+}
+.flex.gap-lg {
+  gap: 32px;
+}
+.flex.gap-xl {
+  gap: 64px;
+}
 .Card {
   display: flex;
   flex-direction: column;
@@ -38,7 +58,7 @@
   height: 12px;
   padding: 16px;
   font-size: 12px;
-  color: #92929d;
+  color: #171725;
   text-decoration: none;
   border: 1px solid #d5d5dc;
   border-radius: 8px;
@@ -53,7 +73,7 @@
   background-color: #ffffff;
 }
 .Button {
-  width: 240px;
+  width: 100%;
   padding: 10px 16px;
   font-size: 16px;
   cursor: pointer;
