@@ -10,17 +10,13 @@ import PersonalInfo from './components/PersonalInfo/PersonalInfo';
 import LoginFinishAfterClickingEmailLink from './components/Login/LoginFinishAfterClickingEmailLink';
 import { auth } from './utils/firebase.init';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import {
-  createBrowserRouter,
-  Navigate,
-  RouterProvider,
-} from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-const createRouter = ({user}) => {
+const createRouter = ({ user }) => {
   return createBrowserRouter([
     {
       path: '/',
-      element: (user) ? <PersonalInfo /> : <Login />,
+      element: user ? <PersonalInfo /> : <Login />,
       errorElement: <NotFoundPage />,
     },
     {
@@ -28,7 +24,7 @@ const createRouter = ({user}) => {
       element: <LoginFinishAfterClickingEmailLink />,
     },
   ]);
-}
+};
 
 const App = () => {
   const [user, loading] = useAuthState(auth);
@@ -43,7 +39,7 @@ const App = () => {
       {user && <AppBar />}
 
       <div className="App">
-        <RouterProvider router={createRouter({user})} />
+        <RouterProvider router={createRouter({ user })} />
       </div>
     </div>
   );

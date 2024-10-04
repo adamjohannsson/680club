@@ -26,7 +26,6 @@ const validateEmailLinkAuth = async ({ email }) => {
     .then((result) => {
       // Clear email from storage.
       // window.localStorage.removeItem('userEmailForLogin');
-
       // You can access the new user by importing getAdditionalUserInfo
       // You can check if the user is new or existing:
       // getAdditionalUserInfo(result)?.isNewUser
