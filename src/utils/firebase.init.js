@@ -1,6 +1,6 @@
+import { getAuth } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
@@ -17,7 +17,7 @@ const actionCodeSettings = {
   // URL where User lands after clicking link they get in their email.
   // URL must be in the authorized domains list in the Firebase Console.
   // TODO: change this for an environment variable
-  url: `https://${process.env.REACT_APP_DOMAIN}/login-finish-after-clicking-email-link`,
+  url: `${process.env.REACT_APP_HTTP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/login-finish-after-clicking-email-link`,
   // This must be true.
   handleCodeInApp: true,
   // iOS: {
