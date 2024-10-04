@@ -1,6 +1,6 @@
 const Button = ({
   text,
-  textSize,
+  className,
   textDisabled,
   disabled,
   onClick,
@@ -8,7 +8,7 @@ const Button = ({
 }) => {
   return (
     <div
-      className={`Button TextSize ${textSize} ${disabled ? 'disabled' : ''}`}
+      className={`Button ${className} ${disabled ? 'disabled' : ''}`}
       onClick={onClick}
     >
       {disabled ? textDisabled || text : text}

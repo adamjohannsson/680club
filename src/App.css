@@ -156,19 +156,19 @@
   cursor: not-allowed;
   background-color: #d5d5dc;
 }
-.Button.TextSize.xs {
+.Button.text-xs {
   font-size: 10px;
 }
-.Button.TextSize.sm {
+.Button.text-sm {
   font-size: 12px;
 }
-.Button.TextSize.md {
+.Button.text-md {
   font-size: 14px;
 }
-.Button.TextSize.lg {
+.Button.text-lg {
   font-size: 18px;
 }
-.Button.TextSize.xl {
+.Button.text-xl {
   font-size: 24px;
 }
 

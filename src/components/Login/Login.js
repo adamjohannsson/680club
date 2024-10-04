@@ -57,7 +57,7 @@ const Login = () => {
 
             <Button
               text="Send me a login link"
-              textSize="sm"
+              className="text-sm fullWidth"
               onClick={handleSendEmailLink}
               disabled={!isValidEmail({ email })}
               textDisabled={'Send me a login link'}

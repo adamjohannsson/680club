@@ -65,7 +65,7 @@ const LoginFinishAfterClickingEmailLink = () => {
 
           <Button
             text="Log in"
-            textSize="sm"
+            className="text-sm fullWidth"
             onClick={() => validateEmailLinkAuth({ email })}
             disabled={!isValidEmail({ email })}
             textDisabled={'Log in'}
