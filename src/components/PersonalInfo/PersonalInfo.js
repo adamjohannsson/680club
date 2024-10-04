@@ -81,19 +81,8 @@ const sections = [
   },
 ];
 
-// TODO: move to Form component itself, or to utils if used in multiple components
-const syncSectionsValues = ({ sections, data }) => {
-  sections.map((section) => {
-    section.fields.map((field) => {
-      if (!field.name || (data[field.name] !== '' && !data[field.name])) {
-        return;
-      }
-
-      field.value = data[field.name];
-    });
-  });
-};
-
+// This method could be abstracted away, to utils or a hook.
+// Basically ask it "go fetch from X collection with Y ID and give any response as param to Z method K TNX BYE"
 const setUserFromFirebaseIntoPersonalInfo = async ({ setPersonalInfo }) => {
   const user = auth.currentUser;
   const userFromFirebase = await getDoc(doc(db, 'users', user.uid));
@@ -127,8 +116,6 @@ const PersonalInfo = () => {
     return <Loading />;
   }
 
-  syncSectionsValues({ sections, data: personalInfo });
-
   return (
     <div>
       <h1>Personal Info</h1>
@@ -138,6 +125,7 @@ const PersonalInfo = () => {
       <div className="VerticalSpacer md" />
 
       <Form
+        data={personalInfo}
         sections={sections}
         onChange={handleChange({ personalInfo, setPersonalInfo })}
         onSubmit={() => handleSubmit({ personalInfo, userFromAuth })}

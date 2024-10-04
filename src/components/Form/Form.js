@@ -1,7 +1,22 @@
 import Card from '../Card/Card';
 import Button from './Button';
 
-const Form = ({ title, sections, onChange, onSubmit }) => {
+// For all 1-st level properties in data, set value of a corresponding field in any section
+const syncSectionsValues = ({ sections, data }) => {
+  sections.map((section) => {
+    section.fields.map((field) => {
+      if (!field.name || (data[field.name] !== '' && !data[field.name])) {
+        return;
+      }
+
+      field.value = data[field.name];
+    });
+  });
+};
+
+const Form = ({ title, sections, onChange, onSubmit, data }) => {
+  syncSectionsValues({ sections, data });
+
   return (
     <Card>
       <div className="Form">
