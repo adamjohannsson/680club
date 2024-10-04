@@ -5,6 +5,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: #FAFAFB;
 }
 
 /* layout */
@@ -12,6 +13,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.flex.col {
+  flex-direction: column;
 }
 .flex.gap-xs {
   gap: 4px;
@@ -62,10 +66,11 @@
 }
 .Card {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  border: 1px solid #d5d5dc;
+  background-color: #ffffff;
+  border-radius: 8px;
 }
 .VerticalSpacer.xs {
   height: 8px;
@@ -83,13 +88,21 @@
   height: 128px;
 }
 
+/* AppBar */
+.AppBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background-color: #FFF;
+  border-bottom: 1px solid #d5d5dc;
+}
+
 /* form */
 .Form {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  border: 1px solid #d5d5dc;
-  border-radius: 8px;
   padding: 32px;
 }
 .FormSections {
@@ -120,7 +133,7 @@
   background-color: #ffffff;
 }
 .Button {
-  width: 100%;
+  display: inline-block;
   padding: 10px 16px;
   font-size: 16px;
   cursor: pointer;
@@ -135,6 +148,9 @@
 }
 .Button:active {
   background-color: #003ea2;
+}
+.Button.fullWidth {
+  width: 100%;
 }
 .Button.disabled {
   cursor: not-allowed;
@@ -181,8 +197,12 @@
   flex-direction: column;
   justify-content: center;
   padding: 16px 128px;
+  background-color: #ffffff;
   border: 1px solid #f1f1f5;
   border-radius: 0 64px 64px 0;
+}
+.ImageLoginRoundCheckmark {
+  width:  128px;
 }
 .login-org-name {
   padding-right: 200px;
@@ -196,6 +216,7 @@
 }
 a {
   text-decoration: none;
+  color: #0062ff;
 }
 h1,
 h2,

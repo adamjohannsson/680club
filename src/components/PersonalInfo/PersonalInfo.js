@@ -81,70 +81,54 @@ const sections = [
   },
 ];
 
-// TODO: move to Form component itself, or to utils if used in multiple components
-const syncSectionsValues = ({ sections, data }) => {
-  sections.map((section) => {
-    section.fields.map((field) => {
-      if (!field.name || (data[field.name] !== '' && !data[field.name])) {
-        return;
-      }
-
-      field.value = data[field.name];
-    });
-  });
+// This method could be abstracted away, to utils or a hook.
+// Basically ask it "go fetch from X collection with Y ID and give any response as param to Z method K TNX BYE"
+const setUserFromFirebaseIntoPersonalInfo = async ({ setPersonalInfo }) => {
+  const user = auth.currentUser;
+  const userFromFirebase = await getDoc(doc(db, 'users', user.uid));
+  setPersonalInfo(userFromFirebase.data());
 };
 
-const getUserDataFromFirebase = async ({ setUserData }) => {
-  const user = auth.currentUser;
-  const userDataFromFirebase = await getDoc(doc(db, 'users', user.uid));
-  setUserData(userDataFromFirebase.data());
+const handleChange = ({ personalInfo, setPersonalInfo }) => ({ target }) => {
+  setPersonalInfo({ ...personalInfo, [target.name]: target.value });
+};
 
-  return userDataFromFirebase;
+const handleSubmit = async ({ personalInfo, userFromAuth }) => {
+  try {
+    const docRef = doc(db, 'users', userFromAuth.uid);
+    setDoc(docRef, { ...personalInfo }, { merge: true });
+  } catch (error) {
+    // TODO: handle this
+    console.error('Error adding document: ', error);
+  }
 };
 
 const PersonalInfo = () => {
-  const [user, loading] = useAuthState(auth);
-  const [personalInfo, setUserData] = useState({});
+  const [userFromAuth, isLoadingUserFromAuth] = useAuthState(auth);
+  const [personalInfo, setPersonalInfo] = useState({});
 
   useEffect(() => {
-    getUserDataFromFirebase({ setUserData });
+    setUserFromFirebaseIntoPersonalInfo({ setPersonalInfo });
   }, []);
 
   // Wait for User to be authenticated
-  if (!user) {
+  if (isLoadingUserFromAuth) {
     return <Loading />;
   }
 
-  syncSectionsValues({ sections, data: personalInfo });
-
-  console.log({ user });
-
-  const handleChange = ({ target }) => {
-    setUserData({ ...personalInfo, [target.name]: target.value });
-  };
-
-  const handleSubmit = async ({ personalInfo }) => {
-    try {
-      const docRef = doc(db, 'users', user.uid);
-      setDoc(docRef, { ...personalInfo }, { merge: true });
-    } catch (e) {
-      // TODO: handle this
-      console.error('Error adding document: ', e);
-    }
-  };
-
   return (
     <div>
-      <h1>Personal Info ⏳</h1>
+      <h1>Personal Info</h1>
       <div className="VerticalSpacer sm" />
 
-      <h2>{user.email}</h2>
+      <h2>{userFromAuth.email}</h2>
       <div className="VerticalSpacer md" />
 
       <Form
+        data={personalInfo}
         sections={sections}
-        onChange={handleChange}
-        onSubmit={() => handleSubmit({ personalInfo })}
+        onChange={handleChange({ personalInfo, setPersonalInfo })}
+        onSubmit={() => handleSubmit({ personalInfo, userFromAuth })}
       />
     </div>
   );
