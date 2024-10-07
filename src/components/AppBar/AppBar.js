@@ -18,7 +18,7 @@ const AppBar = () => {
   return (
     <div className="AppBar">
       <div className="Typography highlight login-org-name">✨ 680 Club</div>
-      
+
       <div>
         <Button text="Logout" onClick={logoutUser} />
       </div>

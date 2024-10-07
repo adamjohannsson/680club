@@ -1,21 +1,49 @@
-import Card from '../Card/Card';
 import Button from './Button';
+import Card from '../Card/Card';
+import { useState } from 'react';
+import TextInput from './TextInput';
+import SelectInput from './SelectInput';
 
-// For all 1-st level properties in data, set value of a corresponding field in any section
-const syncSectionsValues = ({ sections, data }) => {
-  sections.map((section) => {
+const validate = ({
+  formSections,
+  setFormSections,
+  data,
+  onSubmit,
+  setSubmitId,
+}) => {
+  let isFormValid = true;
+  const submitId = Math.random() * 99999999999999;
+
+  // Validate the sections, mark invalid sections as such
+  formSections.map((section) => {
+    section.isInvalid = false;
+
     section.fields.map((field) => {
-      if (!field.name || (data[field.name] !== '' && !data[field.name])) {
-        return;
-      }
+      field.isInvalid = false;
 
-      field.value = data[field.name];
+      if (field.required && (!data[field.name] || !data[field.name] === '')) {
+        isFormValid = false;
+        section.isInvalid = true;
+        field.isInvalid = true;
+      }
     });
   });
+
+  if (!isFormValid) {
+    setFormSections(JSON.parse(JSON.stringify(formSections)));
+    return;
+  }
+
+  // If the form is valid, call onSubmit function given by parent
+  onSubmit();
+  setSubmitId(submitId);
 };
 
-const Form = ({ title, sections, onChange, onSubmit, data }) => {
-  syncSectionsValues({ sections, data });
+const Form = ({ title, sections, data, onChange, onSubmit }) => {
+  const [submitId, setSubmitId] = useState(false);
+  const [formSections, setFormSections] = useState(
+    JSON.parse(JSON.stringify(sections)),
+  );
 
   return (
     <Card>
@@ -28,8 +56,11 @@ const Form = ({ title, sections, onChange, onSubmit, data }) => {
         )}
 
         <div className="FormSections">
-          {sections.map((section, index) => (
-            <div key={index} className="FormSection">
+          {formSections.map((section, index) => (
+            <div
+              key={index}
+              className={`FormSection ${section.isInvalid ? 'invalid' : ''}`}
+            >
               <h2>{section.title}</h2>
               <div className="VerticalSpacer sm"></div>
 
@@ -38,18 +69,28 @@ const Form = ({ title, sections, onChange, onSubmit, data }) => {
               >
                 {section.fields.map((field, index) => (
                   <div key={index}>
-                    <div>
-                      <label>{field.label}</label>
-                      {field.required && (
-                        <span className="Typography highlight">&nbsp;*</span>
-                      )}
-                    </div>
-                    <input
-                      name={field.name}
-                      type={field.type}
-                      value={field.value || ''}
-                      onChange={onChange}
-                    />
+                    {field.type === 'text' ? (
+                      <TextInput
+                        name={field.name}
+                        label={field.label}
+                        value={data[field.name] || ''}
+                        required={field.required}
+                        isInvalid={field.isInvalid}
+                        placeholder={field.placeholder}
+                        onChange={onChange}
+                      />
+                    ) : (
+                      <SelectInput
+                        name={field.name}
+                        label={field.label}
+                        value={data[field.name] || ''}
+                        options={field.options}
+                        required={field.required}
+                        isInvalid={field.isInvalid}
+                        placeholder={field.placeholder}
+                        onChange={onChange}
+                      />
+                    )}
                   </div>
                 ))}
               </div>
@@ -60,7 +101,18 @@ const Form = ({ title, sections, onChange, onSubmit, data }) => {
         {onSubmit && (
           <div>
             <div className="VerticalSpacer md"></div>
-            <Button text="Submit" onClick={onSubmit} />
+            <Button
+              text="Submit"
+              onClick={() =>
+                validate({
+                  formSections,
+                  setFormSections,
+                  data,
+                  onSubmit,
+                  setSubmitId,
+                })
+              }
+            />
           </div>
         )}
       </div>
