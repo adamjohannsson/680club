@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #FAFAFB;
+  background-color: #fafafb;
 }
 
 /* layout */
@@ -94,7 +94,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 8px 16px;
-  background-color: #FFF;
+  background-color: #fff;
   border-bottom: 1px solid #d5d5dc;
 }
 
@@ -110,6 +110,10 @@
   flex-direction: column;
   gap: 64px;
 }
+.FormSection.invalid {
+  padding-left: 16px;
+  border-left: 8px solid #ff6501;
+}
 .TextInput {
   position: relative;
 }
@@ -123,7 +127,70 @@
   border: 1px solid #d5d5dc;
   border-radius: 8px;
 }
+.TextInput input.invalid {
+  border-color: #ff6501;
+}
 .TextInputLabel {
+  position: absolute;
+  padding: 0 6px;
+  top: -4px;
+  left: 8px;
+  font-size: 10px;
+  color: #50b5ff;
+  background-color: #ffffff;
+}
+.SelectInput {
+  position: relative;
+}
+.SelectInputOptions {
+  position: absolute;
+  top: 0%;
+  left: 0;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: scroll;
+  display: flex;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid #d5d5dc;
+  background-color: #fafafb;
+  border-radius: 8px;
+}
+.SelectInputOptions.open {
+  display: flex;
+}
+.SelectInputOptions.openAbove {
+  top: auto;
+  bottom: 0%;
+}
+.SelectInputOption {
+  padding: 8px;
+  cursor: pointer;
+  font-size: 11px;
+  border-radius: 8px;
+}
+.SelectInputOption.blank {
+  color: #0062ff;
+}
+.SelectInputOption:hover {
+  background-color: #50b5ff;
+}
+.SelectInputValue {
+  min-width: 240px;
+  height: 12px;
+  padding: 16px;
+  font-size: 12px;
+  color: #171725;
+  text-decoration: none;
+  border: 1px solid #d5d5dc;
+  border-radius: 8px;
+}
+.SelectInputValue.invalid {
+  border-color: #ff6501;
+}
+.SelectInputLabel {
   position: absolute;
   padding: 0 6px;
   top: -4px;
@@ -202,16 +269,16 @@
   border-radius: 0 64px 64px 0;
 }
 .ImageLoginRoundCheckmark {
-  width:  128px;
+  width: 128px;
 }
 .login-org-name {
   padding-right: 200px;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 /* typography */
 .Typography.highlight {
-  font-size: 18px;
-  font-weight: 700;
   color: #ff6501;
 }
 a {
@@ -226,4 +293,9 @@ h5,
 h6 {
   margin: 0;
   line-height: 1em;
+}
+
+/* test */
+.test {
+  border: 2px dotted red;
 }

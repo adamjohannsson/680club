@@ -1,12 +1,29 @@
-function TextInput({ value, label, placeholder, setValue }) {
+function TextInput({
+  value,
+  name,
+  label,
+  placeholder,
+  setValue,
+  onChange,
+  required,
+  isInvalid,
+}) {
   return (
     <div className="TextInput">
-      {value && <span className="TextInputLabel">{label}</span>}
+      {label && (
+        <span className="TextInputLabel">
+          {label}
+          {required && <span className="Typography highlight">&nbsp;*</span>}
+        </span>
+      )}
+
       <input
         type="text"
-        placeholder={placeholder}
+        name={name}
         value={value}
-        onChange={({ target }) => setValue(target.value)}
+        placeholder={placeholder}
+        className={isInvalid ? 'invalid' : ''}
+        onChange={onChange ? onChange : ({ target }) => setValue(target.value)}
       />
     </div>
   );

@@ -67,7 +67,11 @@ const Login = () => {
 
         {isEmailLinkSent && (
           <div className="flex col gap-sm">
-            <img className="ImageLoginRoundCheckmark" src={roundCheckmark} alt="A round green checkmark" />
+            <img
+              className="ImageLoginRoundCheckmark"
+              src={roundCheckmark}
+              alt="A round green checkmark"
+            />
             <div className="VerticalSpacer xs" />
 
             <h2>The link is sent</h2>
@@ -78,7 +82,9 @@ const Login = () => {
             <div className="flex gap-sm">
               <h6>{email}</h6>
 
-              <h6><a onClick={() => setIsEmailLinkSent(false)}>Send again</a></h6>
+              <h6>
+                <a onClick={() => setIsEmailLinkSent(false)}>Send again</a>
+              </h6>
             </div>
           </div>
         )}

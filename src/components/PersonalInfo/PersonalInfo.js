@@ -14,18 +14,21 @@ const sections = [
         label: 'First Name',
         type: 'text',
         required: true,
+        placeholder: 'John',
       },
       {
         name: 'lastName',
         label: 'Last Name(s)',
         type: 'text',
         required: true,
+        placeholder: 'Doe',
       },
       {
         name: 'phone',
         label: 'Phone',
         type: 'text',
         required: true,
+        placeholder: '123-456-7890',
       },
     ],
   },
@@ -33,49 +36,61 @@ const sections = [
     title: 'Address',
     fields: [
       {
-        name: 'address',
-        label: 'Address',
+        name: 'address1',
+        label: 'Address line 1',
         type: 'text',
         required: true,
+        placeholder: '1234 Main St',
+      },
+      {
+        name: 'address2',
+        label: 'Address line 2',
+        type: 'text',
+        required: false,
+        placeholder: 'Apt 2B',
       },
       {
         name: 'appartment',
         label: 'Appartment, unit or residence number',
         type: 'text',
-        required: true,
+        required: false,
+        placeholder: 'Apt 2B',
       },
       {
         name: 'city',
         label: 'City',
         type: 'text',
         required: true,
+        placeholder: 'Toronto',
       },
       {
         name: 'postalCode',
         label: 'Postal Code',
         type: 'text',
         required: true,
+        placeholder: 'M4B 3J1',
       },
       {
         name: 'province',
         label: 'Province',
         type: 'select',
         options: [
-          'AB',
-          'BC',
-          'MB',
-          'NB',
-          'NL',
-          'NS',
-          'NT',
-          'NU',
-          'ON',
-          'PE',
-          'QC',
-          'SK',
-          'YT',
+          { value: 'AB', label: '(AB) Alberta' },
+          { value: 'BC', label: '(BC) British Columbia' },
+          { value: 'MB', label: '(MB) Manitoba' },
+          { value: 'NB', label: '(NB) New Brunswick' },
+          { value: 'NL', label: '(NL) Newfoundland and Labrador' },
+          { value: 'NS', label: '(NS) Nova Scotia' },
+          { value: 'NT', label: '(NT) Northwest Territories' },
+          { value: 'NU', label: '(NU) Nunavut' },
+          { value: 'ON', label: '(ON) Ontario' },
+          { value: 'PE', label: '(PE) Prince Edward Island' },
+          { value: 'QC', label: '(QC) Québec' },
+          { value: 'SK', label: '(SK) Saskatchewan' },
+          { value: 'YT', label: '(YT) Yukon' },
         ],
         required: true,
+        placeholder: '(ON) Ontario',
       },
     ],
   },
@@ -89,9 +104,14 @@ const setUserFromFirebaseIntoPersonalInfo = async ({ setPersonalInfo }) => {
   setPersonalInfo(userFromFirebase.data());
 };
 
-const handleChange = ({ personalInfo, setPersonalInfo }) => ({ target }) => {
-  setPersonalInfo({ ...personalInfo, [target.name]: target.value });
-};
+const handleChange =
+  ({ personalInfo, setPersonalInfo }) =>
+  ({ target }) => {
+    const [name, value] = target.name
+      ? [target.name, target.value]
+      : [target.attributes.name.value, target.attributes.value.value];
+    setPersonalInfo({ ...personalInfo, [name]: value });
+  };
 
 const handleSubmit = async ({ personalInfo, userFromAuth }) => {
   try {
