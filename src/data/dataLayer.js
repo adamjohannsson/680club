@@ -1,28 +1,61 @@
-import { db } from "../utils/firebase.init";
-import { collection, doc, getDoc, getDocs, query, setDoc, startAfter, limit, orderBy, addDoc } from "firebase/firestore";
+import { db } from '../utils/firebase.init';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  startAfter,
+  limit,
+  orderBy,
+  addDoc,
+  where,
+  deleteDoc,
+  updateDoc,
+} from 'firebase/firestore';
 
-// Add createdAt and updatedAt to data and merge into an existing document
-const mergeDocWithTimestamps = async ({docRef, data}) => {
+const deactivateDoc = async ({ docRef }) => {
   const currentDate = new Date();
   const now = currentDate.getTime();
 
-  const dataToPersist = { ...data, createdAt: now, updatedAt: now };
+  await updateDoc(docRef, { active: false, deactivatedAt: now });
+};
+
+// Add standard fields to data and merge into existing document
+const mergeDocWithTimestamps = async ({ docRef, data }) => {
+  const currentDate = new Date();
+  const now = currentDate.getTime();
+
+  // active can be overridden by data, createdAt and updatedAt can not.
+  const dataToPersist = {
+    active: true,
+    ...data,
+    createdAt: now,
+    updatedAt: now,
+  };
 
   await setDoc(docRef, dataToPersist, { merge: true });
-}
+};
 
-// Add createdAt and updatedAt to data and create a new document with auto-generated id
-const addDocWithTimestamps = async ({collectionRef, data}) => {
+// Add standard fields to data and create new document with auto-generated id to given collection
+const addDocWithTimestamps = async ({ collectionRef, data }) => {
   const currentDate = new Date();
   const now = currentDate.getTime();
 
-  const dataToPersist = { ...data, createdAt: now, updatedAt: now };
+  // active can be overridden by data, createdAt and updatedAt can not.
+  const dataToPersist = {
+    active: true,
+    ...data,
+    createdAt: now,
+    updatedAt: now,
+  };
 
   await addDoc(collectionRef, dataToPersist);
-}
+};
 
 // Convert Firestore query results to a list of flat JSON objects
-const getDocsAsJson = async ({query}) => {
+const getDocsAsJson = async ({ query }) => {
   const querySnapshot = await getDocs(query);
   return querySnapshot.docs.map((doc) => {
     return { ...doc.data(), id: doc.id };
@@ -31,24 +64,50 @@ const getDocsAsJson = async ({query}) => {
 
 // Validate an object has a set of expected keys
 const checkObjectHasKeys = (object, keys) => {
-  return keys.every(key => object.hasOwnProperty(key));
+  return keys.every((key) => object.hasOwnProperty(key));
 };
 
-const getCreditAccounts = async ({ uid, amount = 100, startDocRef = null}) => {
-  const q = query(collection(db, `users/${uid}/creditAccounts`), orderBy('createdAt', 'desc'), limit(amount));
+const getCreditAccounts = async ({
+  uid,
+  amount = 100,
+  active = true,
+  startDocRef = null,
+}) => {
+  const q = query(
+    collection(db, `users/${uid}/creditAccounts`),
+    where('active', '==', active),
+    orderBy('createdAt', 'desc'),
+    limit(amount),
+  );
 
-  return getDocsAsJson({query: q});
+  return getDocsAsJson({ query: q });
 };
 
 const setCreditAccount = async ({ uid, creditAccount }) => {
-  if(creditAccount.id) {
+  if (creditAccount.id) {
     const docRef = doc(db, `users/${uid}/creditAccounts`, creditAccount.id);
 
-    mergeDocWithTimestamps({docRef, data: creditAccount});
+    mergeDocWithTimestamps({ docRef, data: creditAccount });
   } else {
     const collectionRef = collection(db, `users/${uid}/creditAccounts`);
 
-    addDocWithTimestamps({collectionRef, data: creditAccount});
+    addDocWithTimestamps({ collectionRef, data: creditAccount });
+  }
+};
+
+const removeCreditAccount = async ({
+  uid,
+  creditAccountId,
+  permanently = false,
+}) => {
+  if (permanently) {
+    const docRef = doc(db, `users/${uid}/creditAccounts`, creditAccountId);
+
+    await deleteDoc(docRef);
+  } else {
+    const docRef = doc(db, `users/${uid}/creditAccounts`, creditAccountId);
+
+    deactivateDoc({ docRef });
   }
 };
 
@@ -67,7 +126,13 @@ const getUser = async ({ uid, requiredKeys = [] }) => {
 const setUser = async ({ uid, user }) => {
   const docRef = doc(db, 'users', uid);
 
-  mergeDocWithTimestamps({docRef, user});
+  mergeDocWithTimestamps({ docRef, user });
 };
 
-export { getUser, setUser, getCreditAccounts, setCreditAccount };
+export {
+  getUser,
+  setUser,
+  getCreditAccounts,
+  setCreditAccount,
+  removeCreditAccount,
+};

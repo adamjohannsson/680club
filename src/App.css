@@ -71,6 +71,7 @@
   border: 1px solid #d5d5dc;
   background-color: #ffffff;
   border-radius: 8px;
+  overflow: hidden;
 }
 .VerticalSpacer.xs {
   height: 8px;
@@ -86,6 +87,48 @@
 }
 .VerticalSpacer.xl {
   height: 128px;
+}
+
+/* table  */
+.table {
+  display: flex;
+}
+.tableSearch {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-bottom: 1px solid #d5d5dc;
+  border-radius: 4px;
+  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1);
+}
+.tableHeaderCell {
+  font-weight: bold;
+  padding: 16px;
+  border-bottom: 1px solid #d5d5dc;
+}
+.tableCell {
+  padding: 16px;
+  border-bottom: 1px solid #d5d5dc;
+}
+.tableColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tableCell.xs {
+  min-height: 24px;
+}
+.tableCell.sm {
+  min-height: 32px;
+}
+.tableCell.md {
+  min-height: 64px;
+}
+.tableCell.lg {
+  min-height: 96px;
+}
+.tableCell.xl {
+  min-height: 128px;
 }
 
 /* AppBar */
@@ -210,16 +253,19 @@
   background-color: #0062ff;
   border-radius: 8px;
 }
-.Button:hover {
+.Button:hover,
+.IconButton:hover {
   background-color: #357ff7;
 }
-.Button:active {
+.Button:active,
+.IconButton:active {
   background-color: #003ea2;
 }
 .Button.fullWidth {
   width: 100%;
 }
-.Button.disabled {
+.Button.disabled,
+.IconButton.disabled {
   cursor: not-allowed;
   background-color: #d5d5dc;
 }
@@ -237,6 +283,25 @@
 }
 .Button.text-xl {
   font-size: 24px;
+}
+.IconButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: #ffffff;
+  background-color: #0062ff;
+  border-radius: 99px;
+}
+.IconButton.xs {
+  width: 16px;
+  height: 16px;
+  padding: 2px;
+}
+.IconButton.sm {
+  width: 24px;
+  height: 24px;
+  padding: 4px;
 }
 
 /* login */
