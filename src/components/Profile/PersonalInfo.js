@@ -119,7 +119,7 @@ const handleSubmit = async ({ personalInfo }) => {
 
 const PersonalInfo = () => {
   const [userFromAuth, isLoadingUserFromAuth] = useAuthState(auth);
-  const [personalInfo, setPersonalInfo] = useState({isLoading: true});
+  const [personalInfo, setPersonalInfo] = useState({ isLoading: true });
 
   useEffect(() => {
     setUserFromDataLayerIntoPersonalInfo({ setPersonalInfo });
