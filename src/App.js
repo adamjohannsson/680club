@@ -5,8 +5,9 @@ import './App.css';
 import Login from './components/Login/Login';
 import AppBar from './components/AppBar/AppBar';
 import Loading from './components/Global/Loading';
+import Profile from './components/Profile/Profile';
 import NotFoundPage from './components/Global/NotFoundPage';
-import PersonalInfo from './components/PersonalInfo/PersonalInfo';
+import PersonalInfo from './components/Profile/PersonalInfo';
 import LoginFinishAfterClickingEmailLink from './components/Login/LoginFinishAfterClickingEmailLink';
 import { auth } from './utils/firebase.init';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -16,12 +17,17 @@ const createRouter = ({ user }) => {
   return createBrowserRouter([
     {
       path: '/',
+      // Change from loading PersonalInfo to loading the dashboard page
       element: user ? <PersonalInfo /> : <Login />,
       errorElement: <NotFoundPage />,
     },
     {
       path: '/login-finish-after-clicking-email-link',
       element: <LoginFinishAfterClickingEmailLink />,
+    },
+    {
+      path: '/profile',
+      element: <Profile />,
     },
   ]);
 };
