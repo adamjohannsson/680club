@@ -1,9 +1,9 @@
 import Form from '../Form/Form';
 import Loading from '../Global/Loading';
 import { useEffect, useState } from 'react';
-import { auth, db } from '../../utils/firebase.init';
+import { auth } from '../../utils/firebase.init';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { getDoc, doc, setDoc } from 'firebase/firestore';
+import { getUser, setUser } from '../../data/dataLayer';
 
 const sections = [
   {
@@ -98,10 +98,10 @@ const sections = [
 
 // This method could be abstracted away, to utils or a hook.
 // Basically ask it "go fetch from X collection with Y ID and give any response as param to Z method K TNX BYE"
-const setUserFromFirebaseIntoPersonalInfo = async ({ setPersonalInfo }) => {
-  const user = auth.currentUser;
-  const userFromFirebase = await getDoc(doc(db, 'users', user.uid));
-  setPersonalInfo(userFromFirebase.data());
+const setUserFromDataLayerIntoPersonalInfo = async ({ setPersonalInfo }) => {
+  const userFromDataLayer = await getUser({ uid: auth.currentUser.uid });
+
+  setPersonalInfo(userFromDataLayer);
 };
 
 const handleChange =
@@ -113,26 +113,20 @@ const handleChange =
     setPersonalInfo({ ...personalInfo, [name]: value });
   };
 
-const handleSubmit = async ({ personalInfo, userFromAuth }) => {
-  try {
-    const docRef = doc(db, 'users', userFromAuth.uid);
-    setDoc(docRef, { ...personalInfo }, { merge: true });
-  } catch (error) {
-    // TODO: handle this
-    console.error('Error adding document: ', error);
-  }
+const handleSubmit = async ({ personalInfo }) => {
+  setUser({ uid: auth.currentUser.uid, user: personalInfo });
 };
 
 const PersonalInfo = () => {
   const [userFromAuth, isLoadingUserFromAuth] = useAuthState(auth);
-  const [personalInfo, setPersonalInfo] = useState({});
+  const [personalInfo, setPersonalInfo] = useState({isLoading: true});
 
   useEffect(() => {
-    setUserFromFirebaseIntoPersonalInfo({ setPersonalInfo });
+    setUserFromDataLayerIntoPersonalInfo({ setPersonalInfo });
   }, []);
 
-  // Wait for User to be authenticated
-  if (isLoadingUserFromAuth) {
+  // Wait for User to be authenticated and their data loaded into the form
+  if (isLoadingUserFromAuth || personalInfo.isLoading) {
     return <Loading />;
   }
 
@@ -148,7 +142,7 @@ const PersonalInfo = () => {
         data={personalInfo}
         sections={sections}
         onChange={handleChange({ personalInfo, setPersonalInfo })}
-        onSubmit={() => handleSubmit({ personalInfo, userFromAuth })}
+        onSubmit={() => handleSubmit({ personalInfo })}
       />
     </div>
   );
