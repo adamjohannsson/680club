@@ -62,19 +62,43 @@ const getDocsAsJson = async ({ query }) => {
   });
 };
 
+// Convert Firestore doc to a flat JSON object
+const getDocAsJson = async ({ docRef }) => {
+  const docSnap = await getDoc(docRef);
+
+  return { ...docSnap.data(), id: docSnap.id };
+};
+
 // Validate an object has a set of expected keys
 const checkObjectHasKeys = (object, keys) => {
   return keys.every((key) => object.hasOwnProperty(key));
 };
 
-const getCreditAccounts = async ({
+const getConnectedAccount = async ({
+  uid,
+  connectedAccountId,
+  requiredKeys = [],
+}) => {
+  const connectedAccount = await getDocAsJson({
+    docRef: doc(db, `users/${uid}/connectedAccounts`, connectedAccountId),
+  });
+
+  if (!checkObjectHasKeys(connectedAccount, requiredKeys)) {
+    // Let developer know User object does not have all keys expected by consumer
+    throw new Error('Connected account object does not have the required keys');
+  }
+
+  return connectedAccount;
+};
+
+const getConnectedAccounts = async ({
   uid,
   amount = 100,
   active = true,
   startDocRef = null,
 }) => {
   const q = query(
-    collection(db, `users/${uid}/creditAccounts`),
+    collection(db, `users/${uid}/connectedAccounts`),
     where('active', '==', active),
     orderBy('createdAt', 'desc'),
     limit(amount),
@@ -83,37 +107,48 @@ const getCreditAccounts = async ({
   return getDocsAsJson({ query: q });
 };
 
-const setCreditAccount = async ({ uid, creditAccount }) => {
-  if (creditAccount.id) {
-    const docRef = doc(db, `users/${uid}/creditAccounts`, creditAccount.id);
+const setConnectedAccount = async ({ uid, connectedAccount }) => {
+  if (connectedAccount.id) {
+    const docRef = doc(
+      db,
+      `users/${uid}/connectedAccounts`,
+      connectedAccount.id,
+    );
 
-    mergeDocWithTimestamps({ docRef, data: creditAccount });
+    mergeDocWithTimestamps({ docRef, data: connectedAccount });
   } else {
-    const collectionRef = collection(db, `users/${uid}/creditAccounts`);
+    const collectionRef = collection(db, `users/${uid}/connectedAccounts`);
 
-    addDocWithTimestamps({ collectionRef, data: creditAccount });
+    addDocWithTimestamps({ collectionRef, data: connectedAccount });
   }
 };
 
-const removeCreditAccount = async ({
+const removeConnectedAccount = async ({
   uid,
-  creditAccountId,
+  connectedAccountId,
   permanently = false,
 }) => {
   if (permanently) {
-    const docRef = doc(db, `users/${uid}/creditAccounts`, creditAccountId);
+    const docRef = doc(
+      db,
+      `users/${uid}/connectedAccounts`,
+      connectedAccountId,
+    );
 
     await deleteDoc(docRef);
   } else {
-    const docRef = doc(db, `users/${uid}/creditAccounts`, creditAccountId);
+    const docRef = doc(
+      db,
+      `users/${uid}/connectedAccounts`,
+      connectedAccountId,
+    );
 
     deactivateDoc({ docRef });
   }
 };
 
 const getUser = async ({ uid, requiredKeys = [] }) => {
-  const userDoc = await getDoc(doc(db, 'users', uid));
-  const user = userDoc.data();
+  const user = await getDocAsJson({ docRef: doc(db, 'users', uid) });
 
   if (!checkObjectHasKeys(user, requiredKeys)) {
     // Let developer know User object does not have all keys expected by consumer
@@ -126,13 +161,14 @@ const getUser = async ({ uid, requiredKeys = [] }) => {
 const setUser = async ({ uid, user }) => {
   const docRef = doc(db, 'users', uid);
 
-  mergeDocWithTimestamps({ docRef, user });
+  mergeDocWithTimestamps({ docRef, data: user });
 };
 
 export {
   getUser,
   setUser,
-  getCreditAccounts,
-  setCreditAccount,
-  removeCreditAccount,
+  getConnectedAccounts,
+  getConnectedAccount,
+  setConnectedAccount,
+  removeConnectedAccount,
 };

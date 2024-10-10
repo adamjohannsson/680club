@@ -12,13 +12,14 @@ import LoginFinishAfterClickingEmailLink from './components/Login/LoginFinishAft
 import { auth } from './utils/firebase.init';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import EditConnectedAccount from './components/Profile/EditConnectedAccount';
 
 const createRouter = ({ user }) => {
   return createBrowserRouter([
     {
       path: '/',
       // Change from loading PersonalInfo to loading the dashboard page
-      element: user ? <PersonalInfo /> : <Login />,
+      element: !user ? <Login /> : <PersonalInfo />,
       errorElement: <NotFoundPage />,
     },
     {
@@ -27,7 +28,11 @@ const createRouter = ({ user }) => {
     },
     {
       path: '/profile',
-      element: <Profile />,
+      element: !user ? <Login /> : <Profile />,
+    },
+    {
+      path: '/profile/edit-connected-account/:id?',
+      element: !user ? <Login /> : <EditConnectedAccount />,
     },
   ]);
 };
@@ -44,7 +49,7 @@ const App = () => {
     <div>
       {user && <AppBar />}
 
-      <div className="App">
+      <div className="App Box padding-xl">
         <RouterProvider router={createRouter({ user })} />
       </div>
     </div>

@@ -1,11 +1,7 @@
 /* To speed development we put all CSS in this file
   As app grows we should move CSS to components */
 .App {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #fafafb;
+  background-color: #ececf1;
 }
 
 /* layout */
@@ -73,6 +69,12 @@
   border-radius: 8px;
   overflow: hidden;
 }
+.Card.col {
+  flex-direction: column;
+}
+.Card.noBorder {
+  border: 0;
+}
 .VerticalSpacer.xs {
   height: 8px;
 }
@@ -87,6 +89,21 @@
 }
 .VerticalSpacer.xl {
   height: 128px;
+}
+.Box.padding-xs {
+  padding: 4px;
+}
+.Box.padding-sm {
+  padding: 8px;
+}
+.Box.padding-md {
+  padding: 16px;
+}
+.Box.padding-lg {
+  padding: 32px;
+}
+.Box.padding-xl {
+  padding: 64px;
 }
 
 /* table  */
@@ -129,6 +146,9 @@
 }
 .tableCell.xl {
   min-height: 128px;
+}
+.tableCell:last-child {
+  border-bottom: none;
 }
 
 /* AppBar */
@@ -309,6 +329,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+}
+.LoginCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   align-items: stretch;
 }
 .LoginLeft {
@@ -358,6 +384,28 @@ h5,
 h6 {
   margin: 0;
   line-height: 1em;
+}
+
+/* logos */
+.logo.xs {
+  width: 24px;
+  height: 24px;
+}
+.logo.sm {
+  width: 36px;
+  height: 36px;
+}
+.logo.md {
+  width: 48px;
+  height: 48px;
+}
+.logo.lg {
+  width: 64px;
+  height: 64px;
+}
+.logo.xl {
+  width: 96px;
+  height: 96px;
 }
 
 /* test */

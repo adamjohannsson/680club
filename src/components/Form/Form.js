@@ -26,6 +26,18 @@ const validate = ({
         section.isInvalid = true;
         field.isInvalid = true;
       }
+
+      if (field.minLength && data[field.name].length < field.minLength) {
+        isFormValid = false;
+        section.isInvalid = true;
+        field.isInvalid = true;
+      }
+
+      if (field.maxLength && data[field.name].length > field.maxLength) {
+        isFormValid = false;
+        section.isInvalid = true;
+        field.isInvalid = true;
+      }
     });
   });
 
@@ -34,19 +46,29 @@ const validate = ({
     return;
   }
 
-  // If the form is valid, call onSubmit function given by parent
-  onSubmit();
+  // If the form is valid, call onSubmit function given by parent with the form's data
+  onSubmit({ data });
   setSubmitId(submitId);
 };
 
-const Form = ({ title, sections, data, onChange, onSubmit }) => {
+const handleChange =
+  ({ data, setData }) =>
+  ({ target }) => {
+    const [name, value] = target.name
+      ? [target.name, target.value]
+      : [target.attributes.name.value, target.attributes.value.value];
+
+    setData({ ...data, [name]: value });
+  };
+
+const Form = ({ title, sections, data, setData, onSubmit }) => {
   const [submitId, setSubmitId] = useState(false);
   const [formSections, setFormSections] = useState(
     JSON.parse(JSON.stringify(sections)),
   );
 
   return (
-    <Card>
+    <Card className="noBorder">
       <div className="Form">
         {title && (
           <div>
@@ -77,7 +99,9 @@ const Form = ({ title, sections, data, onChange, onSubmit }) => {
                         required={field.required}
                         isInvalid={field.isInvalid}
                         placeholder={field.placeholder}
-                        onChange={onChange}
+                        minLength={field.minLength}
+                        maxLength={field.maxLength}
+                        onChange={handleChange({ data, setData })}
                       />
                     ) : (
                       <SelectInput
@@ -88,7 +112,7 @@ const Form = ({ title, sections, data, onChange, onSubmit }) => {
                         required={field.required}
                         isInvalid={field.isInvalid}
                         placeholder={field.placeholder}
-                        onChange={onChange}
+                        onChange={handleChange({ data, setData })}
                       />
                     )}
                   </div>
