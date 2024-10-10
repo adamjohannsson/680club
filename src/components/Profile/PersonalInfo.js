@@ -104,17 +104,8 @@ const setUserFromDataLayerIntoPersonalInfo = async ({ setPersonalInfo }) => {
   setPersonalInfo(userFromDataLayer);
 };
 
-const handleChange =
-  ({ personalInfo, setPersonalInfo }) =>
-  ({ target }) => {
-    const [name, value] = target.name
-      ? [target.name, target.value]
-      : [target.attributes.name.value, target.attributes.value.value];
-    setPersonalInfo({ ...personalInfo, [name]: value });
-  };
-
-const handleSubmit = async ({ personalInfo }) => {
-  setUser({ uid: auth.currentUser.uid, user: personalInfo });
+const handleSubmit = async ({ data }) => {
+  setUser({ uid: auth.currentUser.uid, user: data });
 };
 
 const PersonalInfo = () => {
@@ -139,10 +130,10 @@ const PersonalInfo = () => {
       <div className="VerticalSpacer md" />
 
       <Form
-        data={personalInfo}
         sections={sections}
-        onChange={handleChange({ personalInfo, setPersonalInfo })}
-        onSubmit={() => handleSubmit({ personalInfo })}
+        data={personalInfo}
+        setData={setPersonalInfo}
+        onSubmit={handleSubmit}
       />
     </div>
   );

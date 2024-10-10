@@ -7,6 +7,8 @@ function TextInput({
   onChange,
   required,
   isInvalid,
+  minLength = null,
+  maxLength = null,
 }) {
   return (
     <div className="TextInput">
@@ -23,7 +25,14 @@ function TextInput({
         value={value}
         placeholder={placeholder}
         className={isInvalid ? 'invalid' : ''}
-        onChange={onChange ? onChange : ({ target }) => setValue(target.value)}
+        onChange={(event) => {
+          // If maxLength set, only change value if not longer than maxLength
+          if (maxLength && event.target.value.length > maxLength) {
+            return;
+          }
+
+          onChange ? onChange(event) : setValue(event.target.value);
+        }}
       />
     </div>
   );

@@ -1,3 +1,28 @@
+const formatCreditCardNumber = ({ number, mask = true }) => {
+  // Make sure number is string
+  const numberString = number.toString();
+  // Remove all non-digits
+  const digitsOnly = numberString.replace(/\D/g, '');
+  // Explode number into 4 character chunks
+  const chunks = digitsOnly.match(/.{1,4}/g);
+
+  if (mask) {
+    // Replace characters in middle chunks with *
+    const maskedChunks = chunks.map((chunk, index) => {
+      if (index !== 0 && index !== chunks.length - 1) {
+        return chunk.replace(/\d/g, '*');
+      }
+      return chunk;
+    });
+
+    // Return masked chunks separated by spaces
+    return maskedChunks.join(' ');
+  }
+
+  // Return unmasked chunks separated by spaces
+  return chunks.join(' ');
+};
+
 const formatDate = ({ timestamp, includeTime = true }) => {
   const date = new Date(timestamp);
 
@@ -14,4 +39,4 @@ const formatDate = ({ timestamp, includeTime = true }) => {
   return `${day} ${month} ${year}${includeTime ? ` at ${hour}:${minute}` : ''}`;
 };
 
-export { formatDate };
+export { formatDate, formatCreditCardNumber };

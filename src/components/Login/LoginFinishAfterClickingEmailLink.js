@@ -49,8 +49,8 @@ const LoginFinishAfterClickingEmailLink = () => {
   }
 
   return (
-    <Card>
-      <div className="Login">
+    <div className="Login">
+      <div className="LoginCard">
         <LoginLeft />
 
         <div className="LoginRight">
@@ -72,7 +72,7 @@ const LoginFinishAfterClickingEmailLink = () => {
           />
         </div>
       </div>
-    </Card>
+    </div>
   );
 };
 

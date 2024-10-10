@@ -41,7 +41,7 @@ const Table = ({ headers, rows, minCellHeight = 'md', showSearch = true }) => {
           className="tableSearch"
           value={filter}
           type="text"
-          placeholder="Search by any text cell"
+          placeholder="Search by any text field"
           onChange={({ target }) => {
             setFilter(target.value);
             scheduleFilter({
@@ -66,7 +66,7 @@ const Table = ({ headers, rows, minCellHeight = 'md', showSearch = true }) => {
                 It makes empty cells match padding of siblings with content
                 Remove at your own peril
                 */}
-                  {row[columnIndex] || '&nbsp;'}
+                  {row[columnIndex] || <>&nbsp;</>}
                 </div>
               ))}
             </div>
