@@ -15,6 +15,7 @@ import {
   removeConnectedAccount,
 } from '../../data/dataLayer';
 
+// Taken from https://www.regular-expressions.info/creditcard.html
 const getCreditCardProvider = ({ number }) => {
   // Remove all non-digits
   const digitsOnly = number.toString().replace(/\D/g, '');
