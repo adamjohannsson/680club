@@ -8,12 +8,44 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../utils/firebase.init';
 import { creditCardProviders } from '../../utils/enums';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { setEntityFromDataLayerInto } from '../../utils/dataAccessors';
 import { formatCreditCardNumber, formatDate } from '../../utils/formatters';
 import {
   getConnectedAccounts,
+  getUser,
   removeConnectedAccount,
 } from '../../data/dataLayer';
+
+const validateUserHasInputAllRequiredPersonalInfo = async ({
+  user,
+  setIsUserHasAllRequiredPersonalInfo,
+}) => {
+  const userFromDataLayer = await getUser({ uid: user.uid });
+  const requiredPersonalInfo = [
+    'firstName',
+    'lastName',
+    'phone',
+    'address1',
+    'city',
+    'province',
+    'postalCode',
+  ];
+
+  // Invalidate User if any required property not present or empty
+  const isUserHasAllRequiredPersonalInfo = !requiredPersonalInfo.some(
+    (requiredPropertyName) => {
+      const propertyValue = userFromDataLayer[requiredPropertyName];
+      return (
+        propertyValue === '' ||
+        propertyValue === null ||
+        propertyValue === undefined
+      );
+    },
+  );
+
+  setIsUserHasAllRequiredPersonalInfo(isUserHasAllRequiredPersonalInfo);
+};
 
 // Taken from https://www.regular-expressions.info/creditcard.html
 const getCreditCardProvider = ({ number }) => {
@@ -54,7 +86,12 @@ const getConnectedAccountsFromDataLayer = async () => {
 
 const ConnectedAccounts = () => {
   const navigate = useNavigate();
+  const [user, loading] = useAuthState(auth);
   const [connectedAccounts, setConnectedAccounts] = useState([]);
+  const [
+    isUserHasAllRequiredPersonalInfo,
+    setIsUserHasAllRequiredPersonalInfo,
+  ] = useState(false);
 
   useEffect(() => {
     setEntityFromDataLayerInto({
@@ -62,6 +99,13 @@ const ConnectedAccounts = () => {
       setEntity: setConnectedAccounts,
     });
   }, []);
+
+  useEffect(() => {
+    validateUserHasInputAllRequiredPersonalInfo({
+      user,
+      setIsUserHasAllRequiredPersonalInfo,
+    });
+  }, [user]);
 
   return (
     <div>
@@ -118,13 +162,23 @@ const ConnectedAccounts = () => {
         />
         <div className="VerticalSpacer sm" />
 
-        <Button
-          onClick={() => {
-            navigate('/profile/edit-connected-account');
-          }}
-        >
-          Connect a new account
-        </Button>
+        {isUserHasAllRequiredPersonalInfo ? (
+          <Button
+            onClick={() => {
+              navigate('/profile/edit-connected-account');
+            }}
+          >
+            Connect a new account
+          </Button>
+        ) : (
+          <Button
+            onClick={() => {
+              navigate('/personal-info');
+            }}
+          >
+            Please fill all Personal Info to connect a new account!
+          </Button>
+        )}
         <div className="VerticalSpacer md" />
       </Card>
     </div>

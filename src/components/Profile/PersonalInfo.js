@@ -1,6 +1,7 @@
 import Form from '../Form/Form';
 import Loading from '../Global/Loading';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { auth } from '../../utils/firebase.init';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getUser, setUser } from '../../data/dataLayer';
@@ -109,6 +110,7 @@ const handleSubmit = async ({ data }) => {
 };
 
 const PersonalInfo = () => {
+  const navigate = useNavigate();
   const [userFromAuth, isLoadingUserFromAuth] = useAuthState(auth);
   const [personalInfo, setPersonalInfo] = useState({ isLoading: true });
 
