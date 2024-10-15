@@ -25,14 +25,13 @@ const deactivateDoc = async ({ docRef }) => {
 // Add standard fields to data and merge into existing document
 const mergeDocWithTimestamps = async ({ docRef, data }) => {
   const currentDate = new Date();
-  const now = currentDate.getTime();
 
-  // active can be overridden by data, createdAt and updatedAt can not.
+  // active and createdAt can be overridden by data, updatedAt can not.
   const dataToPersist = {
     active: true,
+    createdAt: currentDate,
     ...data,
-    createdAt: now,
-    updatedAt: now,
+    updatedAt: currentDate,
   };
 
   await setDoc(docRef, dataToPersist, { merge: true });
@@ -41,14 +40,13 @@ const mergeDocWithTimestamps = async ({ docRef, data }) => {
 // Add standard fields to data and create new document with auto-generated id to given collection
 const addDocWithTimestamps = async ({ collectionRef, data }) => {
   const currentDate = new Date();
-  const now = currentDate.getTime();
 
   // active can be overridden by data, createdAt and updatedAt can not.
   const dataToPersist = {
     active: true,
     ...data,
-    createdAt: now,
-    updatedAt: now,
+    createdAt: currentDate,
+    updatedAt: currentDate,
   };
 
   await addDoc(collectionRef, dataToPersist);
@@ -104,7 +102,7 @@ const getConnectedAccounts = async ({
     limit(amount),
   );
 
-  return getDocsAsJson({ query: q });
+  return await getDocsAsJson({ query: q });
 };
 
 const setConnectedAccount = async ({ uid, connectedAccount }) => {
@@ -160,6 +158,17 @@ const getUser = async ({ uid, requiredKeys = [] }) => {
 
 const setUser = async ({ uid, user }) => {
   const docRef = doc(db, 'users', uid);
+
+  const docSnap = await getDoc(docRef);
+
+  if(!docSnap.exists()) {
+    // TODO: change this model
+    // from "save this info in Users table"
+    // to "save all club payments into a club payments collection or table"
+    user.isSubscriptionActive = false;
+    user.lastClubPaymentTimestamp = new Date("Jan 1 1970");
+    user.lastClubPaymentAmount = 0;
+  }
 
   mergeDocWithTimestamps({ docRef, data: user });
 };
