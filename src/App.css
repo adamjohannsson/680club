@@ -362,10 +362,11 @@
 .ImageLoginRoundCheckmark {
   width: 128px;
 }
-.login-org-name {
+.loginOrgName {
   padding-right: 200px;
   font-size: 18px;
   font-weight: 700;
+  cursor: pointer;
 }
 
 /* typography */

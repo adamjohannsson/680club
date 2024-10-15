@@ -1,3 +1,4 @@
+/** Convert credit card number to format "5509 **** **** 8723" */
 const formatCreditCardNumber = ({ number, mask = true }) => {
   // Make sure number is string
   const numberString = number.toString();
@@ -23,10 +24,8 @@ const formatCreditCardNumber = ({ number, mask = true }) => {
   return chunks.join(' ');
 };
 
-const formatDate = ({ timestamp, includeTime = true }) => {
-  const date = new Date(timestamp);
-
-  // Convert date to string with format "2024-Jan-01 23:00"
+/** Convert date to string with format "2024-Jan-01 23:00" */
+const formatDate = ({ date, includeTime = true }) => {
   const day = date.toLocaleDateString('en-US', { day: '2-digit' });
   const month = date.toLocaleDateString('en-US', { month: 'short' });
   const year = date.toLocaleDateString('en-US', { year: 'numeric' });

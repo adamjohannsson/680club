@@ -135,7 +135,7 @@ const ConnectedAccounts = () => {
               connectedAccount.nickname,
               formatCreditCardNumber({ number: connectedAccount.number }),
               formatDate({
-                timestamp: connectedAccount.updatedAt,
+                date: connectedAccount.updatedAt.toDate(),
                 includeTime: false,
               }),
               <div className="flex gap-sm">
