@@ -110,7 +110,6 @@ const handleSubmit = async ({ data }) => {
 };
 
 const PersonalInfo = () => {
-  const navigate = useNavigate();
   const [userFromAuth, isLoadingUserFromAuth] = useAuthState(auth);
   const [personalInfo, setPersonalInfo] = useState({ isLoading: true });
 

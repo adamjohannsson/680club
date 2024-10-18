@@ -17,9 +17,8 @@ import {
 
 const deactivateDoc = async ({ docRef }) => {
   const currentDate = new Date();
-  const now = currentDate.getTime();
 
-  await updateDoc(docRef, { active: false, deactivatedAt: now });
+  await updateDoc(docRef, { active: false, deactivatedAt: currentDate });
 };
 
 // Add standard fields to data and merge into existing document
@@ -106,6 +105,11 @@ const getConnectedAccounts = async ({
 };
 
 const setConnectedAccount = async ({ uid, connectedAccount }) => {
+  const dataToPersist = {
+    ...connectedAccount,
+    userId: uid,
+  };
+
   if (connectedAccount.id) {
     const docRef = doc(
       db,
@@ -113,11 +117,11 @@ const setConnectedAccount = async ({ uid, connectedAccount }) => {
       connectedAccount.id,
     );
 
-    mergeDocWithTimestamps({ docRef, data: connectedAccount });
+    mergeDocWithTimestamps({ docRef, data: dataToPersist });
   } else {
     const collectionRef = collection(db, `users/${uid}/connectedAccounts`);
 
-    addDocWithTimestamps({ collectionRef, data: connectedAccount });
+    addDocWithTimestamps({ collectionRef, data: dataToPersist });
   }
 };
 
