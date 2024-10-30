@@ -1,4 +1,5 @@
 import { db } from '../utils/firebase.init';
+import { clubBackend } from './clubBackend';
 import {
   collection,
   doc,
@@ -6,7 +7,6 @@ import {
   getDocs,
   query,
   setDoc,
-  startAfter,
   limit,
   orderBy,
   addDoc,
@@ -51,6 +51,13 @@ const addDocWithTimestamps = async ({ collectionRef, data }) => {
   await addDoc(collectionRef, dataToPersist);
 };
 
+// Convert Firestore doc to a flat JSON object
+const getDocAsJson = async ({ docRef }) => {
+  const docSnap = await getDoc(docRef);
+
+  return { ...docSnap.data(), id: docSnap.id };
+};
+
 // Convert Firestore query results to a list of flat JSON objects
 const getDocsAsJson = async ({ query }) => {
   const querySnapshot = await getDocs(query);
@@ -59,11 +66,8 @@ const getDocsAsJson = async ({ query }) => {
   });
 };
 
-// Convert Firestore doc to a flat JSON object
-const getDocAsJson = async ({ docRef }) => {
-  const docSnap = await getDoc(docRef);
-
-  return { ...docSnap.data(), id: docSnap.id };
+const getCustomer = async ({ clubUserId, email }) => {
+  return await clubBackend.getOrCreateCustomer({ clubUserId, email });
 };
 
 // Validate an object has a set of expected keys
@@ -180,6 +184,7 @@ const setUser = async ({ uid, user }) => {
 export {
   getUser,
   setUser,
+  getCustomer,
   getConnectedAccounts,
   getConnectedAccount,
   setConnectedAccount,
