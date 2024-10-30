@@ -60,7 +60,7 @@ const EditConnectedAccount = () => {
       </Button>
       <div className="VerticalSpacer sm" />
 
-      <h1>{id ? `Edit connected account ${id}` : 'New connected account'}</h1>
+      <h1>{connectedAccount ? `Edit connected account ${connectedAccount.nickname}` : 'New connected account'}</h1>
       <div className="VerticalSpacer sm" />
 
       <Form
