@@ -154,6 +154,10 @@ const ConnectedAccounts = () => {
                       uid: auth.currentUser.uid,
                       connectedAccountId: connectedAccount.id,
                     });
+                    setEntityFromDataLayerInto({
+                      getEntityMethod: getConnectedAccountsFromDataLayer,
+                      setEntity: setConnectedAccounts,
+                    });
                   }}
                 />
               </div>,
@@ -168,7 +172,7 @@ const ConnectedAccounts = () => {
               navigate('/profile/edit-connected-account');
             }}
           >
-            Connect a new account
+            Add a credit card
           </Button>
         ) : (
           <Button

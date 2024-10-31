@@ -9,7 +9,7 @@ const Button = ({
   return (
     <div
       className={`Button ${className} ${disabled ? 'disabled' : ''}`}
-      onClick={onClick}
+      onClick={disabled ? () => {} : onClick}
     >
       {disabled ? textDisabled || text : text}
       {children}

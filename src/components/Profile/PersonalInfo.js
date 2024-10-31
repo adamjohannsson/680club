@@ -3,8 +3,8 @@ import Loading from '../Global/Loading';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../utils/firebase.init';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { getUser, setUser } from '../../data/dataLayer';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 const sections = [
   {
@@ -105,11 +105,14 @@ const setUserFromDataLayerIntoPersonalInfo = async ({ setPersonalInfo }) => {
   setPersonalInfo(userFromDataLayer);
 };
 
-const handleSubmit = async ({ data }) => {
+const handleSubmit = async ({ data, navigate }) => {
   setUser({ uid: auth.currentUser.uid, user: data });
+
+  navigate('/profile');
 };
 
 const PersonalInfo = () => {
+  const navigate = useNavigate();
   const [userFromAuth, isLoadingUserFromAuth] = useAuthState(auth);
   const [personalInfo, setPersonalInfo] = useState({ isLoading: true });
 
@@ -134,7 +137,7 @@ const PersonalInfo = () => {
         sections={sections}
         data={personalInfo}
         setData={setPersonalInfo}
-        onSubmit={handleSubmit}
+        onSubmit={({ data }) => handleSubmit({ data, navigate })}
       />
     </div>
   );
