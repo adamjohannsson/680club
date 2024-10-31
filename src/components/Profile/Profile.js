@@ -11,19 +11,17 @@ const Profile = () => {
     <div>
       <Card className="col noBorder">
         <div className="Box padding-lg">
-          <h1>Profile</h1>
-          <div className="VerticalSpacer sm" />
+          <div className="flex gap-md">
+            <img src="https://placehold.co/86x86/f0c0f0/000000" alt="680 Club" style={{ borderRadius: '50%' }} />
 
-          <Button
-            onClick={() => {
-              navigate('/personal-info');
-            }}
-          >
-            Edit Personal Info
-          </Button>
+            <div>
+              <h1>Profile</h1>
+              <div className="VerticalSpacer sm" />
+              <Button onClick={() => navigate('/personal-info')}>Edit Personal Info</Button>
+            </div>
+          </div>
         </div>
       </Card>
-
       <div className="VerticalSpacer lg" />
 
       <ConnectedAccounts />

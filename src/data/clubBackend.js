@@ -2,10 +2,17 @@ import { buildQueryParams } from "../utils/urls";
 
 const getDataFromEndpoint = async ({ endpoint, queryParams }) => {
   // TODO: Handle post requests and not only get requests
-  const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/${endpoint}${buildQueryParams(queryParams)}`);
-  const data = await response.json();
+  try {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/${endpoint}${buildQueryParams(queryParams)}`)
+    const data = await response.json();
 
-  return data;
+    return data;
+  } catch (error) {
+    // TODO: handle this
+    console.error(error);
+
+    return null;
+  }
 };
 
 const getOrCreateCustomer = async ({ clubUserId, email }) => {

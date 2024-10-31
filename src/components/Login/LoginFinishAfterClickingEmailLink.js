@@ -31,7 +31,7 @@ const validateEmailLinkAuth = async ({ email }) => {
       // getAdditionalUserInfo(result)?.isNewUser
     })
     .catch((error) => {
-      // TODO handle this
+      // TODO: handle this
       console.log({ cause: 'signInWithEmailLink', error });
       // Some error occurred, you can inspect the code: error.code
       // Common errors could be invalid email and invalid or expired OTPs.

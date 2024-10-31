@@ -6,8 +6,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { setEntityFromDataLayerInto } from '../../utils/dataAccessors';
 import { getConnectedAccount, setConnectedAccount } from '../../data/dataLayer';
 
-const handleSubmit = ({ data }) => {
+const handleSubmit = ({ data, navigate }) => {
   setConnectedAccount({ uid: auth.currentUser.uid, connectedAccount: data });
+  navigate('/profile');
 };
 
 const getConnectedAccountFromDataLayer = async ({ connectedAccountId }) => {
@@ -67,7 +68,7 @@ const EditConnectedAccount = () => {
         sections={sections}
         data={connectedAccount}
         setData={setConnectedAccount}
-        onSubmit={handleSubmit}
+        onSubmit={({ data }) => handleSubmit({ data, navigate })}
       />
     </div>
   );
