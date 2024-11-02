@@ -63,7 +63,7 @@ const SubscriptionDetails = () => {
         {isCustomerExists({customer}) && !isCustomerSubscribed({customer}) && isClubUserHasAtLeastOneConnectedAccount({connectedAccounts}) && (
           <div className="flex gap-sm">
             <Button
-              onClick={() => window.open(`${process.env.REACT_APP_BACKEND_URL}/create-pricing-table-for-customer${buildQueryParams({clubUserId: customer.id})}`, '_blank')}
+              onClick={() => window.open(`${process.env.REACT_APP_BACKEND_URL}/customer-create-pricing-table${buildQueryParams({clubUserId: customer.id})}`, '_blank')}
               text="Subscribe to 680 Club"
               target="_blank"
             />
