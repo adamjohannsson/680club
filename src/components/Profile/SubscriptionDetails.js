@@ -53,7 +53,7 @@ const SubscriptionDetails = () => {
             <h1>You are a premium subscriber!</h1>
             <div className="VerticalSpacer sm" />
             <Button
-                onClick={() => window.open(`${process.env.REACT_APP_BACKEND_URL}/create-customer-portal-session${buildQueryParams({clubUserId: customer.id})}`, '_blank')}
+                onClick={() => window.open(`${process.env.REACT_APP_BACKEND_URL}/customer-create-portal-session${buildQueryParams({clubUserId: customer.id})}`, '_blank')}
                 text="Manage your subscription"
                 target="_blank"
               />
