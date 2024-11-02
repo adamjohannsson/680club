@@ -1,5 +1,5 @@
+import { clubApi } from './clubApi';
 import { db } from '../utils/firebase.init';
-import { clubBackend } from './clubBackend';
 import {
   collection,
   doc,
@@ -67,7 +67,7 @@ const getDocsAsJson = async ({ query }) => {
 };
 
 const getCustomer = async ({ clubUserId, email }) => {
-  return await clubBackend.getOrCreateCustomer({ clubUserId, email });
+  return await clubApi.customer.getOrCreate({ clubUserId, email });
 };
 
 // Validate an object has a set of expected keys
