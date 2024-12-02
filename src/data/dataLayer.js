@@ -1,4 +1,5 @@
-import { clubApi } from './clubApi';
+
+import clubApi from '../integrations/clubApi';
 import { db } from '../utils/firebase.init';
 import {
   collection,
@@ -14,6 +15,33 @@ import {
   deleteDoc,
   updateDoc,
 } from 'firebase/firestore';
+
+
+/* Helpers */
+
+const udpateDocWithTimestamps = async ({collectionPath, data, merge = true}) => {
+  const currentDate = new Date();
+
+  // active and createdAt can be overridden by data, updatedAt can not.
+  const dataToPersist = {
+    active: true,
+    createdAt: currentDate,
+    ...data,
+    updatedAt: currentDate,
+  };
+
+  // If data has no id, create new document in collection.
+  if(!data.id) {
+    const collectionRef = collection(db, collectionPath);
+
+    return await addDoc(collectionRef, dataToPersist);
+  }
+
+  const docRef = doc(db, `${collectionPath}/${data.id}`);
+  // @TODO: handle document not found
+
+  return await setDoc(docRef, dataToPersist, { merge });
+}
 
 const deactivateDoc = async ({ docRef }) => {
   const currentDate = new Date();
@@ -36,21 +64,6 @@ const mergeDocWithTimestamps = async ({ docRef, data }) => {
   await setDoc(docRef, dataToPersist, { merge: true });
 };
 
-// Add standard fields to data and create new document with auto-generated id to given collection
-const addDocWithTimestamps = async ({ collectionRef, data }) => {
-  const currentDate = new Date();
-
-  // active can be overridden by data, createdAt and updatedAt can not.
-  const dataToPersist = {
-    active: true,
-    ...data,
-    createdAt: currentDate,
-    updatedAt: currentDate,
-  };
-
-  await addDoc(collectionRef, dataToPersist);
-};
-
 // Convert Firestore doc to a flat JSON object
 const getDocAsJson = async ({ docRef }) => {
   const docSnap = await getDoc(docRef);
@@ -66,68 +79,73 @@ const getDocsAsJson = async ({ query }) => {
   });
 };
 
-const getCustomer = async ({ clubUserId, email }) => {
-  return await clubApi.customer.getOrCreate({ clubUserId, email });
-};
-
 // Validate an object has a set of expected keys
 const checkObjectHasKeys = (object, keys) => {
   return keys.every((key) => object.hasOwnProperty(key));
 };
 
-const getConnectedAccount = async ({
-  uid,
-  connectedAccountId,
-  requiredKeys = [],
-}) => {
-  const connectedAccount = await getDocAsJson({
-    docRef: doc(db, `users/${uid}/connectedAccounts`, connectedAccountId),
-  });
+const setCallbackAfterGetDoc = async ({ docRef, callback }) => {
+  const doc = await getDocAsJson({ docRef });
+  callback({doc});
+};
 
-  if (!checkObjectHasKeys(connectedAccount, requiredKeys)) {
-    // Let developer know User object does not have all keys expected by consumer
-    throw new Error('Connected account object does not have the required keys');
+const setCallbackAfterGetList = async ({ query, callback }) => {
+  const docs = await getDocsAsJson({ query });
+
+  callback({ docs });
+};
+
+
+/* Credit Card */
+
+const creditCard = {
+  create: async ({ clubUserId, cardNumber }) => {
+    return await clubApi.creditCard.create({ clubUserId, cardNumber });
   }
+}
 
-  return connectedAccount;
-};
 
-const getConnectedAccounts = async ({
-  uid,
-  amount = 100,
-  active = true,
-  startDocRef = null,
-}) => {
-  const q = query(
-    collection(db, `users/${uid}/connectedAccounts`),
-    where('active', '==', active),
-    orderBy('createdAt', 'desc'),
-    limit(amount),
-  );
+/* Customer */
 
-  return await getDocsAsJson({ query: q });
-};
+const customer = {
+  onGet: async ({ clubUserId, email, callback }) => {
+    const customer = await clubApi.customer.getOrCreate({ clubUserId, email });
+    callback({ customer });
+  },
+}
 
-const setConnectedAccount = async ({ uid, connectedAccount }) => {
-  const dataToPersist = {
-    ...connectedAccount,
-    userId: uid,
-  };
 
-  if (connectedAccount.id) {
-    const docRef = doc(
-      db,
-      `users/${uid}/connectedAccounts`,
-      connectedAccount.id,
-    );
+/* Connected Account */
+const connectedAccount = {
+  update: async ({ connectedAccount }) => {
+    const dataToPersist = {
+      ...connectedAccount,
+      number: null, // IMPORTANT: do NOT persist plain text card number
+    };
 
-    mergeDocWithTimestamps({ docRef, data: dataToPersist });
-  } else {
-    const collectionRef = collection(db, `users/${uid}/connectedAccounts`);
+    delete dataToPersist.number;
 
-    addDocWithTimestamps({ collectionRef, data: dataToPersist });
-  }
-};
+    return await udpateDocWithTimestamps({
+      collectionPath: `users/${connectedAccount.userId}/connectedAccounts`,
+      data: dataToPersist,
+    });
+  },
+  onGet: async ({ userId, connectedAccountId, callback }) => {
+    setCallbackAfterGetDoc({
+      docRef: doc(db, `users/${userId}/connectedAccounts`, connectedAccountId),
+      callback,
+    });
+  },
+  onGetList: async ({ userId, active = true, callback }) => {
+    const q = query(
+      collection(db, `users/${userId}/connectedAccounts`),
+      where('active', '==', active),
+      orderBy('createdAt', 'desc'),
+    );;
+
+    setCallbackAfterGetList({ query: q, callback });
+  },
+}
 
 const removeConnectedAccount = async ({
   uid,
@@ -152,6 +170,9 @@ const removeConnectedAccount = async ({
     deactivateDoc({ docRef });
   }
 };
+
+
+/* User */
 
 const getUser = async ({ uid, requiredKeys = [] }) => {
   const user = await getDocAsJson({ docRef: doc(db, 'users', uid) });
@@ -181,12 +202,15 @@ const setUser = async ({ uid, user }) => {
   mergeDocWithTimestamps({ docRef, data: user });
 };
 
+const dataLayer = {
+  customer,
+  creditCard,
+  connectedAccount,
+}
+
 export {
+  dataLayer,
   getUser,
   setUser,
-  getCustomer,
-  getConnectedAccounts,
-  getConnectedAccount,
-  setConnectedAccount,
   removeConnectedAccount,
 };
