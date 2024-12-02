@@ -2,20 +2,30 @@ import Form from '../Form/Form';
 import Button from '../Form/Button';
 import { useEffect, useState } from 'react';
 import { auth } from '../../utils/firebase.init';
+import { dataLayer } from '../../data/dataLayer';
 import { useNavigate, useParams } from 'react-router-dom';
-import { setEntityFromDataLayerInto } from '../../utils/dataAccessors';
-import { getConnectedAccount, setConnectedAccount } from '../../data/dataLayer';
+import { getCreditCardProvider } from '../../utils/strings';
 
-const handleSubmit = ({ data, navigate }) => {
-  setConnectedAccount({ uid: auth.currentUser.uid, connectedAccount: data });
+const handleSubmit = async ({ data, navigate }) => {
+  const creditCardCreateResponse = await dataLayer.creditCard.create({ clubUserId: auth.currentUser.uid, cardNumber: data.number });
+
+  if (!creditCardCreateResponse.token) {
+    /** @TODO Handle error */
+    console.error('Error creating credit card');
+    return;
+  }
+
+  const dataToPersist = {
+    ...data,
+    userId: auth.currentUser.uid,
+    last4: creditCardCreateResponse.last4,
+    token: creditCardCreateResponse.token,
+    provider: getCreditCardProvider({ number: data.number }),
+  };
+
+  await dataLayer.connectedAccount.update({ connectedAccount: dataToPersist });
+
   navigate('/profile');
-};
-
-const getConnectedAccountFromDataLayer = async ({ connectedAccountId }) => {
-  return await getConnectedAccount({
-    uid: auth.currentUser.uid,
-    connectedAccountId,
-  });
 };
 
 const sections = [
@@ -42,11 +52,7 @@ const EditConnectedAccount = () => {
 
   useEffect(() => {
     if (id) {
-      setEntityFromDataLayerInto({
-        getEntityMethod: () =>
-          getConnectedAccountFromDataLayer({ connectedAccountId: id }),
-        setEntity: setConnectedAccount,
-      });
+      dataLayer.connectedAccount.onGet({userId: auth.currentUser.uid, connectedAccountId: id, callback: ({doc}) => setConnectedAccount(doc)});
     }
   }, [id]);
 

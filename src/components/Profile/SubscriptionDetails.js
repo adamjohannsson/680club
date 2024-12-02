@@ -2,7 +2,7 @@ import Card from '../Card/Card';
 import Button from '../Form/Button';
 import { getAuth } from 'firebase/auth';
 import { useState, useEffect } from 'react';
-import { getConnectedAccounts, getCustomer } from '../../data/dataLayer';
+import { dataLayer } from '../../data/dataLayer';
 import { buildQueryParams } from '../../utils/urls';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -25,19 +25,14 @@ const SubscriptionDetails = () => {
   const [userFromAuth, isLoadingUserFromAuth] = useAuthState(auth);
 
   useEffect(() => {
-    // Ask 680 Club backend for valid Customer ID matching a customer on
-    // whichever integration is used for 680 Club subscriptions
-    const getCustomerAsync = async () => {
-      if (userFromAuth) {
-        const customer = await getCustomer({ clubUserId: userFromAuth.uid, email: userFromAuth.email });
-        const connectedAccounts = await getConnectedAccounts({ uid: userFromAuth.uid });
+    const userId = userFromAuth.uid;
+    const email = userFromAuth.email;
 
-        setCustomer(customer);
-        setConnectedAccounts(connectedAccounts);
-      }
-    };
-
-    getCustomerAsync();
+    if (userFromAuth) {
+      // Ask 680Club backend for valid Customer ID matching a customer on integration used for 680 Club subscriptions
+      dataLayer.customer.onGet({ clubUserId: userId, email, callback: ({ customer }) => setCustomer(customer) });
+      dataLayer.connectedAccount.onGetList({ userId, active: true, callback: ({ docs }) => setConnectedAccounts(docs) });
+    }
   }, []);
 
   return (
