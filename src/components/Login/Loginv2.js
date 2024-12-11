@@ -7,6 +7,7 @@ import { isValidEmail } from "../../utils/validators";
 import { actionCodeSettings } from "../../utils/firebase.init";
 import { getLocalStorageItem } from "../../utils/localStorage";
 import { getAuth, sendSignInLinkToEmail } from "firebase/auth";
+import AppBarV2 from "../AppBar/AppBarV2";
 
 const handleSendEmailLink = ({ email, auth, setIsEmailLinkSent }) => {
   if (!isValidEmail({ email })) {
@@ -33,33 +34,36 @@ const LoginV2 = () => {
   const [isEmailLinkSent, setIsEmailLinkSent] = useState(false);
 
   return (
-    <div className="flex column gap-xl padding-top-bottom-xl padding-left-right-xxl">
-      <div className="flex align-center gap-md">
-        <Icon name={icon.back} />
-        <div className="text size-sm">Back</div>
+    <>
+      <AppBarV2 />
+
+      <div className="flex column gap-xl padding-top-bottom-xl padding-left-right-xxl">
+        <div className="flex align-center gap-md">
+          <Icon name={icon.back} />
+          <div className="text size-sm">Back</div>
+        </div>
+
+        <div className="text title size-xxl">Login</div>
+
+        <div className="padding-xxs"></div>
+
+        <div className="flex column gap-md">
+          <TextInputV2
+            label="Email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={({ target }) => setEmail(target.value)}
+          />
+
+          <ButtonV2
+            onClick={() => handleSendEmailLink({ email, auth, setIsEmailLinkSent })}
+            disabled={!isValidEmail({ email })}
+          >
+            Continue
+          </ButtonV2>
+        </div>
       </div>
-
-      <div className="text title size-xxl">Login</div>
-
-      <div className="padding-xxs"></div>
-
-      <div className="flex column gap-md">
-        <TextInputV2
-          label="Email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={({ target }) => setEmail(target.value)}
-        />
-
-        <ButtonV2
-          onClick={() => handleSendEmailLink({ email, auth, setIsEmailLinkSent })}
-          disabled={!isValidEmail({ email })}
-        >
-          Continue
-        </ButtonV2>
-      </div>
-
-    </div>
+    </>
   );
 };
 
