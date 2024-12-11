@@ -21,7 +21,7 @@ const InputV2 = ({ value, propertyName, metadata = {}, form, onChange }) => {
         className={`padding-md rounded-sm ${propertyMetadata.isValid === false && 'test'}`}
         type={propertyMetadata.type}
         placeholder={propertyMetadata.placeholder ? propertyMetadata.placeholder : propertyMetadata.label}
-        value={value}
+        value={value || ''}
         onChange={onChangeHandler}
       />
     </div>

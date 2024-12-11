@@ -1,4 +1,5 @@
 import ButtonV2 from "../Form/ButtonV2";
+import templates from "../../data/templates";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../utils/firebase.init";
 import { dataLayer } from "../../data/dataLayer";
@@ -6,6 +7,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 const signTermsAndConditions = async ({ userId, navigate }) => {
   await dataLayer.user.update({ user: {
+    ...templates.user,
     id: userId,
     hasSignedTermsAndConditions: true,
     dateSignedTermsAndConditions: new Date(),

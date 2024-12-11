@@ -5,7 +5,7 @@ import { dataLayer } from '../../data/dataLayer';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 const isUserInputAllRequiredPersonalInfo = ({ user }) => {
-  const requiredProperties = ['firstName', 'lastName', 'phone', 'province', 'postalCode', 'address1', 'city'];
+  const requiredProperties = ['fullName', 'phone', 'address'];
 
   return requiredProperties.every(property => user[property]);
 }
