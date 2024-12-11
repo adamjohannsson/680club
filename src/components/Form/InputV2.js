@@ -1,10 +1,9 @@
 const InputV2 = ({ value, propertyName, metadata = {}, form, onChange }) => {
   const metadataToUse = form ? form.metadata : metadata;
   const propertyMetadata = metadataToUse[propertyName] ? metadataToUse[propertyName] : {};
-  const label = propertyMetadata.label ? propertyMetadata.label : propertyName;
 
   const onChangeHandler = ({target}) => {
-    const formatter = propertyMetadata.formatter ? propertyMetadata.formatter : (target) => target.value;
+    const formatter = propertyMetadata.formatter ? propertyMetadata.formatter : ({target}) => target.value;
     const formattedValue = formatter({target});
     onChange({target: {value: formattedValue}});
 
@@ -16,12 +15,12 @@ const InputV2 = ({ value, propertyName, metadata = {}, form, onChange }) => {
 
   return (
     <div className='flex column gap-xs'>
-      <div className="text size-sm">{label}</div>
+      {propertyMetadata.label && <div className="text size-sm">{propertyMetadata.label}</div>}
 
       <input
         className={`padding-md rounded-sm ${propertyMetadata.isValid === false && 'test'}`}
         type={propertyMetadata.type}
-        placeholder={propertyMetadata.placeholder ? propertyMetadata.placeholder : label}
+        placeholder={propertyMetadata.placeholder ? propertyMetadata.placeholder : propertyMetadata.label}
         value={value}
         onChange={onChangeHandler}
       />

@@ -1,6 +1,5 @@
 import Icon from '../Icon/Icon';
 import ButtonV2 from '../Form/ButtonV2';
-import TextInputV2 from '../Form/TextInputV2';
 import { useState } from 'react';
 import { icon } from '../../data/constants';
 import { Navigate } from 'react-router-dom';
@@ -9,6 +8,7 @@ import { isValidEmail } from '../../utils/validators';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getLocalStorageItem } from '../../utils/localStorage';
 import { isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
+import InputV2 from '../Form/InputV2';
 
 const validateEmailLinkAuth = async ({ email }) => {
   const isLinkValid = isSignInWithEmailLink(auth, window.location.href);
@@ -49,12 +49,7 @@ const LoginFinishAfterClickingEmailLinkV2 = () => {
       <div className="padding-xxs"></div>
 
       <div className="flex column gap-md">
-        <TextInputV2
-          label="Email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={({target}) => setEmail(target.value)}
-        />
+        <InputV2 value={email} propertyName="email" metadata={{email: {type: 'email', placeholder: 'Enter your email'}}} onChange={({target}) => setEmail(target.value)} />
 
         <ButtonV2
           onClick={() => validateEmailLinkAuth({ email })}

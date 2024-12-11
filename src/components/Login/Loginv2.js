@@ -1,13 +1,13 @@
 import Icon from "../Icon/Icon";
+import InputV2 from "../Form/InputV2";
 import ButtonV2 from "../Form/ButtonV2";
-import TextInputV2 from "../Form/TextInputV2";
+import AppBarV2 from "../AppBar/AppBarV2";
 import { useState } from "react";
 import { icon } from "../../data/constants";
 import { isValidEmail } from "../../utils/validators";
 import { actionCodeSettings } from "../../utils/firebase.init";
 import { getLocalStorageItem } from "../../utils/localStorage";
 import { getAuth, sendSignInLinkToEmail } from "firebase/auth";
-import AppBarV2 from "../AppBar/AppBarV2";
 
 const handleSendEmailLink = ({ email, auth, setIsEmailLinkSent }) => {
   if (!isValidEmail({ email })) {
@@ -48,12 +48,7 @@ const LoginV2 = () => {
         <div className="padding-xxs"></div>
 
         <div className="flex column gap-md">
-          <TextInputV2
-            label="Email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={({ target }) => setEmail(target.value)}
-          />
+          <InputV2 value={email} propertyName="email" metadata={{email: {type: 'email', placeholder: 'Enter your email'}}} onChange={({target}) => setEmail(target.value)} />
 
           <ButtonV2
             onClick={() => handleSendEmailLink({ email, auth, setIsEmailLinkSent })}
