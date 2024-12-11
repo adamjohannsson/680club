@@ -18,7 +18,6 @@ import {
 
 
 /* Helpers */
-
 const udpateDocWithTimestamps = async ({collectionPath, data, merge = true}) => {
   const currentDate = new Date();
 
@@ -39,7 +38,6 @@ const udpateDocWithTimestamps = async ({collectionPath, data, merge = true}) => 
 
   const docRef = doc(db, `${collectionPath}/${data.id}`);
   // @TODO: handle document not found
-
   return await setDoc(docRef, dataToPersist, { merge });
 }
 
@@ -97,7 +95,6 @@ const setCallbackAfterGetList = async ({ query, callback }) => {
 
 
 /* Credit Card */
-
 const creditCard = {
   create: async ({ clubUserId, cardNumber }) => {
     return await clubApi.creditCard.create({ clubUserId, cardNumber });
@@ -106,7 +103,6 @@ const creditCard = {
 
 
 /* Customer */
-
 const customer = {
   onGet: async ({ clubUserId, email, callback }) => {
     const customer = await clubApi.customer.getOrCreate({ clubUserId, email });
@@ -173,6 +169,16 @@ const removeConnectedAccount = async ({
 
 
 /* User */
+const user = {
+  update: async ({ user }) => {
+    await udpateDocWithTimestamps({ collectionPath: `users`, data: user });
+  },
+  onGet: async ({ id, callback }) => {
+    const document = await getDocAsJson({ docRef: doc(db, 'users', id) });
+
+    callback({ document });
+  },
+}
 
 const getUser = async ({ uid, requiredKeys = [] }) => {
   const user = await getDocAsJson({ docRef: doc(db, 'users', uid) });
@@ -203,6 +209,7 @@ const setUser = async ({ uid, user }) => {
 };
 
 const dataLayer = {
+  user,
   customer,
   creditCard,
   connectedAccount,
