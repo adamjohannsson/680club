@@ -137,6 +137,11 @@ body {
   padding-left: 128px;
   padding-right: 128px;
 }
+.thumb {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
 
 /* Flexbox */
 .flex {
@@ -420,10 +425,10 @@ input {
   font-size: 32px;
 }
 .text.size-xxl {
-  font-size: 64px;
+  font-size: 48px;
 }
 .text.size-xxxl {
-  font-size: 128px;
+  font-size: 64px;
 }
 
 

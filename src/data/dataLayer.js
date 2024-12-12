@@ -104,6 +104,9 @@ const creditCard = {
 
 /* Customer */
 const customer = {
+  get: async ({ clubUserId, email }) => {
+    return await clubApi.customer.getOrCreate({ clubUserId, email });
+  },
   onGet: async ({ clubUserId, email, callback }) => {
     const customer = await clubApi.customer.getOrCreate({ clubUserId, email });
     callback({ customer });

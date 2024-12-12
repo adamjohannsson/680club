@@ -5,12 +5,12 @@ import './AppV2.css';
 import LoginV2 from './components/Login/Loginv2';
 import Loading from './components/Global/Loading';
 import AppBarV2 from './components/AppBar/AppBarV2';
-import ProfileV2 from './components/Profile/ProfileV2';
 import NotFoundPage from './components/Global/NotFoundPage';
 import PersonalInfo from './components/Profile/PersonalInfo';
 import EditConnectedAccount from './components/Profile/EditConnectedAccount';
 import TermsAndConditions from './components/Prerequisites/TermsAndConditions';
 import UserRequiredPersonalInfo from './components/Prerequisites/UserRequiredPersonalInfo';
+import SetupCheckAndCongratulations from './components/Prerequisites/SetupCheckAndCongratulations';
 import LoginFinishAfterClickingEmailLinkV2 from './components/Login/LoginFinishAfterClickingEmailLinkV2';
 import { auth } from './utils/firebase.init';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -21,7 +21,7 @@ const createRouter = () => {
     {
       path: '/',
       // Change from loading PersonalInfo to loading the dashboard page
-      element: <ProfileV2 />,
+      element: <SetupCheckAndCongratulations />,
       errorElement: <NotFoundPage />,
     },
     {
