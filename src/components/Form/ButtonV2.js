@@ -1,7 +1,7 @@
-const ButtonV2 = ({ children, onClick, disabled }) => {
+const ButtonV2 = ({ children, onClick, disabled, size = 'md', backgroundColor = 'background-grayscale-10' }) => {
   const conditionalClasses = {
     cursor: disabled ? '' : 'pointer',
-    background: disabled ? 'background-grayscale-5' : 'background-grayscale-10',
+    background: disabled ? 'background-grayscale-5' : backgroundColor,
   }
 
 

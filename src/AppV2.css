@@ -160,6 +160,9 @@ body {
 .flex.justify-between {
   justify-content: space-between;
 }
+.flex.justify-around {
+  justify-content: space-around;
+}
 .flex.column {
   flex-direction: column;
 }
@@ -399,6 +402,12 @@ input {
 .text.title {
   font-family: 'Crimson Pro', serif;
   font-weight: 300;
+}
+.text.light {
+  font-weight: 300;
+}
+.text.bold {
+  font-weight: 600;
 }
 .text.center {
   text-align: center;

@@ -69,7 +69,7 @@ const SetupCheckAndCongratulations = () => {
 
       <div className='thumb'>
         <div className='padding-lg'>
-          <ButtonV2 onClick={() => navigate('/credit-dashboard')}>Go to Credit dashboard</ButtonV2>
+          <ButtonV2 onClick={() => navigate('/dashboard')}>Go to Credit dashboard</ButtonV2>
         </div>
       </div>
     </div>
