@@ -120,9 +120,11 @@ const connectedAccount = {
     const dataToPersist = {
       ...connectedAccount,
       number: null, // IMPORTANT: do NOT persist plain text card number
+      cardNumber: null, // IMPORTANT: do NOT persist plain text card number
     };
 
     delete dataToPersist.number;
+    delete dataToPersist.cardNumber;
 
     return await udpateDocWithTimestamps({
       collectionPath: `users/${connectedAccount.userId}/connectedAccounts`,
@@ -140,7 +142,7 @@ const connectedAccount = {
       collection(db, `users/${userId}/connectedAccounts`),
       where('active', '==', active),
       orderBy('createdAt', 'desc'),
-    );;
+    );
 
     setCallbackAfterGetList({ query: q, callback });
   },

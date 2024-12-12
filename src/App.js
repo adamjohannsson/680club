@@ -9,6 +9,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import NotFoundPage from './components/Global/NotFoundPage';
 import PersonalInfo from './components/Profile/PersonalInfo';
 import EditConnectedAccount from './components/Profile/EditConnectedAccount';
+import ConnectedAccount from './components/ConnectedAccount/ConnectedAccount';
 import TermsAndConditions from './components/Prerequisites/TermsAndConditions';
 import UserRequiredPersonalInfo from './components/Prerequisites/UserRequiredPersonalInfo';
 import SetupCheckAndCongratulations from './components/Prerequisites/SetupCheckAndCongratulations';
@@ -24,6 +25,10 @@ const createRouter = () => {
       // Change from loading PersonalInfo to loading the dashboard page
       element: <SetupCheckAndCongratulations />,
       errorElement: <NotFoundPage />,
+    },
+    {
+      path: '/connected-account',
+      element: <ConnectedAccount />,
     },
     {
       path: '/dashboard',

@@ -1,3 +1,9 @@
+const connectedAccount = {
+  cardNickname: '',
+  fullNameOnCard: '',
+  cardNumber: '',
+}
+
 const user = {
   fullName: '',
   phone: '',
@@ -8,6 +14,7 @@ const user = {
 
 const templates = {
   user,
+  connectedAccount,
 }
 
 export default templates;

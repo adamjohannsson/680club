@@ -43,8 +43,37 @@ const userRequiredPersonalInfo = {
   },
 };
 
+const connectedAccount = {
+  cardNickname: {
+    type: 'text',
+    label: 'Card\'s nickname',
+    placeholder: 'Enter a phrase to easily identify your card',
+    required: true,
+    isValid: true,
+  },
+  fullNameOnCard: {
+    type: 'text',
+    label: 'Full name on card',
+    placeholder: 'Hal Finney',
+    required: true,
+    isValid: true,
+  },
+  cardNumber: {
+    type: 'text',
+    label: 'Card number',
+    placeholder: '8234 9234 9234 1202',
+    required: true,
+    isValid: true,
+    // Value has at least 16 digits
+    validator: ({target}) => target.value.length >= 16,
+    // Remove everything except numbers and spaces
+    formatter: ({target}) => target.value.replace(/[^\d\s]/g, ''),
+  },
+}
+
 const formMetadata = {
   userRequiredPersonalInfo: initializeMetadata({ metadata: userRequiredPersonalInfo }),
+  connectedAccount: initializeMetadata({ metadata: connectedAccount }),
 }
 
 export {
