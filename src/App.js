@@ -1,60 +1,89 @@
 // To speed development we put all CSS in this file
 // As app grows we should move CSS to components
-import './App.css';
+import './AppV2.css';
 
-import Login from './components/Login/Login';
-import AppBar from './components/AppBar/AppBar';
+import LoginV2 from './components/Login/Loginv2';
 import Loading from './components/Global/Loading';
-import Profile from './components/Profile/Profile';
+import AppBarV2 from './components/AppBar/AppBarV2';
+import ProfileV2 from './components/Profile/ProfileV2';
+import Dashboard from './components/Dashboard/Dashboard';
 import NotFoundPage from './components/Global/NotFoundPage';
 import PersonalInfo from './components/Profile/PersonalInfo';
 import EditConnectedAccount from './components/Profile/EditConnectedAccount';
-import LoginFinishAfterClickingEmailLink from './components/Login/LoginFinishAfterClickingEmailLink';
+import ConnectedAccount from './components/ConnectedAccount/ConnectedAccount';
+import TermsAndConditions from './components/Prerequisites/TermsAndConditions';
+import UserRequiredPersonalInfo from './components/Prerequisites/UserRequiredPersonalInfo';
+import SetupCheckAndCongratulations from './components/Prerequisites/SetupCheckAndCongratulations';
+import LoginFinishAfterClickingEmailLinkV2 from './components/Login/LoginFinishAfterClickingEmailLinkV2';
 import { auth } from './utils/firebase.init';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-const createRouter = ({ user }) => {
+const createRouter = () => {
   return createBrowserRouter([
     {
       path: '/',
       // Change from loading PersonalInfo to loading the dashboard page
-      element: !user ? <Login /> : <Profile />,
+      element: <SetupCheckAndCongratulations />,
       errorElement: <NotFoundPage />,
     },
     {
+      path: '/profile',
+      element: <ProfileV2 />,
+    },
+    {
+      path: '/connected-account',
+      element: <ConnectedAccount />,
+    },
+    {
+      path: '/dashboard',
+      element: <Dashboard />,
+    },
+    {
+      path: '/terms-and-conditions',
+      element: <TermsAndConditions />,
+    },
+    {
+      path: '/user-required-personal-info',
+      element: <UserRequiredPersonalInfo />,
+    },
+    {
       path: '/personal-info',
-      element: !user ? <Login /> : <PersonalInfo />,
+      element: <PersonalInfo />,
     },
     {
       path: '/login-finish-after-clicking-email-link',
-      element: <LoginFinishAfterClickingEmailLink />,
-    },
-    {
-      path: '/profile',
-      element: !user ? <Login /> : <Profile />,
+      element: <LoginFinishAfterClickingEmailLinkV2 />,
     },
     {
       path: '/profile/edit-connected-account/:id?',
-      element: !user ? <Login /> : <EditConnectedAccount />,
+      element: <EditConnectedAccount />,
     },
   ]);
 };
 
-const App = () => {
-  const [user, loading] = useAuthState(auth);
+const isNobodyLoggedIn = ({authUser, isLoading}) => {
+  return (!authUser && !isLoading && window.location.pathname !== '/login-finish-after-clicking-email-link');
+};
 
-  // While Firebase figures out if a User is logged show Loading
-  if (loading) {
+const App = () => {
+  const [authUser, isLoading] = useAuthState(auth);
+
+  // While Firebase figures out if a User is logged
+  if(isLoading) {
     return <Loading />;
+  }
+
+  if(isNobodyLoggedIn({authUser, isLoading})) {
+    return <LoginV2 />;
   }
 
   return (
     <div>
-      {user && <AppBar />}
+      <AppBarV2 />
 
-      <div className="App Box padding-xl">
-        <RouterProvider router={createRouter({ user })} />
+      <div className="App">
+        <RouterProvider router={createRouter()} />
       </div>
     </div>
   );

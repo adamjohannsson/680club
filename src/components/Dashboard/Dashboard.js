@@ -1,0 +1,100 @@
+import ButtonV2 from "../Form/ButtonV2";
+import tempIconSettings from '../../assets/temp-icon-settings.png';
+import roundInfomark from '../../assets/round-infomark-orange.png';
+import roundRadarDot from '../../assets/round-radar-dot-green.png';
+import tempIconCheckScore from '../../assets/temp-icon-check-score.png';
+import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import { auth } from "../../utils/firebase.init";
+import { dataLayer } from "../../data/dataLayer";
+
+const Dashboard = () => {
+  const navigate = useNavigate();
+  const [connectedAccounts, setConnectedAccounts] = useState([]);
+
+  useEffect(() => {
+    dataLayer.connectedAccount.onGetList({ userId: auth.currentUser.uid, active: true, callback: ({docs}) => {
+      setConnectedAccounts(docs);
+    }});
+  }, []);
+
+  const StepInstructions = ({stepNumber, title, description}) => {
+    const backgroundColor = ['light-tertiary', 'light-primary', 'light-secondary'];
+
+    return (
+      <div className='flex gap-md'>
+        <div className={`flex center circle background-${backgroundColor[(stepNumber % 3)]}`} style={{ minWidth: '48px', height: '48px'}}>
+          <div className='text size-lg color-grayscale-0'>{stepNumber}</div>
+        </div>
+
+        <div>
+          <div className='text size-lg'>{title}</div>
+          <div className='text light size-md padding-top-bottom-sm'>{description}</div>
+        </div>
+      </div>
+    )
+  }
+
+  const OneThingLeftToDo = () => {
+    return (
+      <div className='padding-lg'>
+        <div className='flex column gap-md padding-md background-grayscale-0' style={{ border: '2px solid #D5D7DA', borderRadius: '12px' }}>
+          <div className=''>
+            <img src={roundInfomark} alt='info' style={{ width: '36px', height: '36px' }} />
+          </div>
+
+          <div className='text bold size-md'>One thing left to do!</div>
+          <div className='text light size-md'>Link your credit card. That's how we'll upgrade your credit score.</div>
+
+          <ButtonV2 backgroundColor='background-light-tertiary' onClick={() => {navigate('/connected-account')}}>Link card</ButtonV2>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <>
+      {connectedAccounts.length === 0 && (
+        <OneThingLeftToDo />
+      )}
+
+      <div className='padding-lg'>
+        <div className='flex align-center gap-md background-grayscale-0 padding-xxs' style={{ border: '2px solid #D5D7DA', borderRadius: '12px' }}>
+          <div className='flex align-center gap-xxs padding-xxxs padding-left-right-xs' style={{ border: '2px solid #D5D7DA', borderRadius: '8px' }}>
+            <div>
+              <img src={roundRadarDot} alt='info' style={{ width: '24px', height: '24px' }} />
+            </div>
+            <div className='text size-md'>Live credit monitoring</div>
+          </div>
+          <div className='text size-md'>Coming soon!</div>
+        </div>
+      </div>
+
+      <div className='flex column gap-lg padding-lg'>
+        <div className='text title size-xxl'>Credit bump</div>
+        <div className='text size-md'>Watch as your credit score increases. Here's how to check your score with RBC.</div>
+
+        <StepInstructions stepNumber={1} title='Access RBC online.' description='Go to the RBC website and log in to your online banking account using your username and password.' />
+
+        <StepInstructions stepNumber={2} title='Find Credit Score section.' description='Once logged in, look for your profile in the top-right corner and select "View Your Credit Score" from the dropdown menu.' />
+
+        <StepInstructions stepNumber={3} title='Review your score.' description='The credit score page will show your current score along with other relevant information, updated monthly.' />
+      </div>
+
+      <div className='thumb'>
+        <div className='flex justify-around padding-lg background-grayscale-0' style={{ borderTop: '2px solid #A3A3A5' }}>
+          <div className='flex column center gap-md'>
+            <img src={tempIconCheckScore} style={{ width: '24px', height: '24px' }} />
+            <div className='text center size-sm color-light-primary'>Credit score</div>
+          </div>
+          <div className='flex column center gap-md' onClick={() => {navigate('/profile')}}>
+            <img src={tempIconSettings} style={{ width: '24px', height: '24px' }} />
+            <div className='text center size-sm color-light-primary'>Settings</div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default Dashboard;
