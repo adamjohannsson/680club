@@ -5,6 +5,7 @@ import './AppV2.css';
 import LoginV2 from './components/Login/Loginv2';
 import Loading from './components/Global/Loading';
 import AppBarV2 from './components/AppBar/AppBarV2';
+import ProfileV2 from './components/Profile/ProfileV2';
 import Dashboard from './components/Dashboard/Dashboard';
 import NotFoundPage from './components/Global/NotFoundPage';
 import PersonalInfo from './components/Profile/PersonalInfo';
@@ -25,6 +26,10 @@ const createRouter = () => {
       // Change from loading PersonalInfo to loading the dashboard page
       element: <SetupCheckAndCongratulations />,
       errorElement: <NotFoundPage />,
+    },
+    {
+      path: '/profile',
+      element: <ProfileV2 />,
     },
     {
       path: '/connected-account',

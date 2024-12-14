@@ -1,4 +1,4 @@
-const ButtonV2 = ({ children, onClick, disabled, size = 'md', backgroundColor = 'background-grayscale-10' }) => {
+const ButtonV2 = ({ children, onClick, disabled, padding = 'md', color = 'color-grayscale-0', backgroundColor = 'background-grayscale-10', style = {} }) => {
   const conditionalClasses = {
     cursor: disabled ? '' : 'pointer',
     background: disabled ? 'background-grayscale-5' : backgroundColor,
@@ -7,9 +7,10 @@ const ButtonV2 = ({ children, onClick, disabled, size = 'md', backgroundColor = 
 
   return (
     <div
-      className={`text size-md center padding-md rounded-sm color-grayscale-0 ${conditionalClasses.background} ${conditionalClasses.cursor}`}
-      onClick={disabled ? undefined : onClick}
+      className={`text size-md center padding-${padding} rounded-sm ${color} ${conditionalClasses.background} ${conditionalClasses.cursor}`}
+      style={style}
       disabled={disabled}
+      onClick={disabled ? undefined : onClick}
     >
       {children}
     </div>

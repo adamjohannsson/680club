@@ -1,7 +1,11 @@
 const connectedAccount = {
+  last4: '',
+  token: '',
+  userId: '',
+  provider: '',
+  cardNumber: '',
   cardNickname: '',
   fullNameOnCard: '',
-  cardNumber: '',
 }
 
 const user = {

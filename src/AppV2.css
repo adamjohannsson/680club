@@ -395,6 +395,81 @@ input {
 }
 
 
+/* Image */
+img.size-xxxs {
+  width: 8px;
+  height: 8px;
+}
+img.size-xxs {
+  width: 12px;
+  height: 12px;
+}
+img.size-xs {
+  width: 16px;
+  height: 16px;
+}
+img.size-sm {
+  width: 24px;
+  height: 24px;
+}
+img.size-md {
+  width: 32px;
+  height: 32px;
+}
+img.size-lg {
+  width: 48px;
+  height: 48px;
+}
+img.size-xl {
+  width: 64px;
+  height: 64px;
+}
+img.size-xxl {
+  width: 128px;
+  height: 128px;
+}
+img.size-xxxl {
+  width: 192px;
+  height: 192px;
+}
+img.size-width-xxxs {
+  width: 8px;
+  object-fit: contain;
+}
+img.size-width-xxs {
+  width: 12px;
+  object-fit: contain;
+}
+img.size-width-xs {
+  width: 16px;
+  object-fit: contain;
+}
+img.size-width-sm {
+  width: 24px;
+  object-fit: contain;
+}
+img.size-width-md {
+  width: 32px;
+  object-fit: contain;
+}
+img.size-width-lg {
+  width: 48px;
+  object-fit: contain;
+}
+img.size-width-xl {
+  width: 64px;
+  object-fit: contain;
+}
+img.size-width-xxl {
+  width: 128px;
+  object-fit: contain;
+}
+img.size-width-xxxl {
+  width: 192px;
+  object-fit: contain;
+}
+
+
 /* Typography */
 .text {
   line-height: 1;

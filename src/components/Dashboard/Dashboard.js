@@ -87,7 +87,7 @@ const Dashboard = () => {
             <img src={tempIconCheckScore} style={{ width: '24px', height: '24px' }} />
             <div className='text center size-sm color-light-primary'>Credit score</div>
           </div>
-          <div className='flex column center gap-md'>
+          <div className='flex column center gap-md' onClick={() => {navigate('/profile')}}>
             <img src={tempIconSettings} style={{ width: '24px', height: '24px' }} />
             <div className='text center size-sm color-light-primary'>Settings</div>
           </div>
