@@ -4,6 +4,7 @@ import CreditCardLogo from "../Global/CreditCardLogo";
 import { useEffect, useState } from "react";
 import { auth } from "../../utils/firebase.init";
 import { dataLayer } from "../../data/dataLayer";
+import responsive from "../../utils/responsive";
 
 const ProfileV2 = () => {
   const [user, setUser] = useState({});
@@ -22,12 +23,19 @@ const ProfileV2 = () => {
     <>
       <div className='flex column gap-md padding-xxl'>
         <div className='text title size-xxl'>Profile</div>
+
         <div className='text light size-md'>{user.fullName}'s profile</div>
-        <ButtonV2>Edit profile</ButtonV2>
+
+        <div className={responsive.isWeb() ? 'flex justify-end' : ''}>
+          <ButtonV2>Edit profile</ButtonV2>
+        </div>
       </div>
 
       <div className='flex column gap-md padding-left-right-xxl'>
-        <div className='text title size-xxl'>Credit cards</div>
+        <div className='flex justify-between align-center'>
+          <div className='text title size-xxl'>Credit cards</div>
+          {responsive.isWeb() && <ButtonV2 padding='a padding-top-bottom-sm padding-left-right-md'>Add card</ButtonV2>}
+        </div>
         <div className='text light size-md'>Watch as your credit score increases. Here’s how to check your score with RBC.</div>
 
         {connectedAccounts.map(connectedAccount => (
@@ -53,7 +61,7 @@ const ProfileV2 = () => {
           </Card>
         ))}
 
-        <ButtonV2>Add card</ButtonV2>
+        {!responsive.isWeb() && <ButtonV2>Add card</ButtonV2>}
       </div>
 
       <div className='flex column gap-md padding-xxl'>
