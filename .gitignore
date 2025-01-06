@@ -10,7 +10,7 @@
 /build
 
 # environment variables
-.env.local
+.env
 .env.dev
 .env.prod
 
