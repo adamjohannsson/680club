@@ -11,14 +11,14 @@
 # 3. Deploy app to Firebase
 # 4. Restore dev env variables
 
-echo ""; echo ""; echo "Set prod env variables to .env file while deploying"; read;
+echo ""; echo ""; echo "Set prod env variables to .env file while deploying.";
 cp .env.prod .env;
 
-echo ""; echo ""; echo "Create production app build"; read;
+echo ""; echo ""; echo "Create production app build [PRESS ENTER TO CONTINUE]"; read;
 npm run build;
 echo "Finished creating a production app build";
 
-echo ""; echo ""; echo "Deploy to Firebase"; read;
+echo ""; echo ""; echo "Deploy to Firebase [PRESS ENTER TO CONTINUE]"; read;
 firebase deploy;
 echo "Finished deploying to Firebase";
 
