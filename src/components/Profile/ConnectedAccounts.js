@@ -69,7 +69,7 @@ const ConnectedAccounts = () => {
 
   return (
     <div>
-      <Card className="col noBorder">
+      <Card className="col">
         <div className="VerticalSpacer sm" />
 
         <h1>Active accounts</h1>

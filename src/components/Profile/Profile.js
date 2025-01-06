@@ -9,7 +9,7 @@ const Profile = () => {
 
   return (
     <div>
-      <Card className="col noBorder">
+      <Card className="col">
         <div className="Box padding-lg">
           <div className="flex gap-md">
             <img src="https://placehold.co/86x86/f0c0f0/000000" alt="680 Club" style={{ borderRadius: '50%' }} />
