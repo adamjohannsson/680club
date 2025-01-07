@@ -7,6 +7,36 @@ import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { auth } from "../../utils/firebase.init";
 import { dataLayer } from "../../data/dataLayer";
+import responsive from "../../utils/responsive";
+import Icon from "../Icon/Icon";
+import { icon } from "../../data/constants";
+
+const ThumbMenu = ({ navigate }) => {
+  return (
+    <div className='thumb'>
+      <div className='flex justify-around padding-lg background-grayscale-0' style={{ borderTop: '2px solid #A3A3A5' }}>
+        <div className='flex column center gap-md'>
+          <img src={tempIconCheckScore} style={{ width: '24px', height: '24px' }} />
+          <div className='text center size-sm color-light-primary'>Credit score</div>
+        </div>
+
+        <div className='flex column center gap-md' onClick={() => {navigate('/profile')}}>
+          <img src={tempIconSettings} style={{ width: '24px', height: '24px' }} />
+          <div className='text center size-sm color-light-primary'>Settings</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const AccountSettingsButton = ({ navigate }) => {
+  return (
+    <div className='flex align-center gap-md rounded-xs background-grayscale-10 padding-top-bottom-xs padding-left-right-md' onClick={() => {navigate('/profile')}}>
+      <Icon name={icon.settings} stroke='#ffffff' fill='#000000' />
+      <div className='text size-md color-grayscale-0'>Account settings</div>
+    </div>
+  )
+}
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -71,7 +101,11 @@ const Dashboard = () => {
       </div>
 
       <div className='flex column gap-lg padding-lg'>
-        <div className='text title size-xxl'>Credit bump</div>
+        <div className='flex align-center justify-between'>
+          <div className='text title size-xxl'>Credit bump</div>
+
+          {responsive.isWeb() && <AccountSettingsButton navigate={navigate} />}
+        </div>
         <div className='text size-md'>Watch as your credit score increases. Here's how to check your score with RBC.</div>
 
         <StepInstructions stepNumber={1} title='Access RBC online.' description='Go to the RBC website and log in to your online banking account using your username and password.' />
@@ -81,18 +115,7 @@ const Dashboard = () => {
         <StepInstructions stepNumber={3} title='Review your score.' description='The credit score page will show your current score along with other relevant information, updated monthly.' />
       </div>
 
-      <div className='thumb'>
-        <div className='flex justify-around padding-lg background-grayscale-0' style={{ borderTop: '2px solid #A3A3A5' }}>
-          <div className='flex column center gap-md'>
-            <img src={tempIconCheckScore} style={{ width: '24px', height: '24px' }} />
-            <div className='text center size-sm color-light-primary'>Credit score</div>
-          </div>
-          <div className='flex column center gap-md' onClick={() => {navigate('/profile')}}>
-            <img src={tempIconSettings} style={{ width: '24px', height: '24px' }} />
-            <div className='text center size-sm color-light-primary'>Settings</div>
-          </div>
-        </div>
-      </div>
+      {!responsive.isWeb() && <ThumbMenu navigate={navigate} />}
     </>
   );
 }

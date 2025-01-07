@@ -17,6 +17,8 @@ const province = {
 const icon = {
   back: 'back',
   forward: 'forward',
+  settings: 'settings',
+  plusCircle: 'plusCircle',
 }
 
 const other = {

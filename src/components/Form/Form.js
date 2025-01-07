@@ -68,7 +68,7 @@ const Form = ({ title, sections, data, setData, onSubmit }) => {
   );
 
   return (
-    <Card className="noBorder">
+    <Card>
       <div className="Form">
         {title && (
           <div>

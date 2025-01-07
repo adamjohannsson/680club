@@ -82,8 +82,10 @@ const App = () => {
     <div>
       <AppBarV2 />
 
-      <div className="App">
-        <RouterProvider router={createRouter()} />
+      <div className="desktop-container">
+        <div className="desktop-box">
+          <RouterProvider router={createRouter()} />
+        </div>
       </div>
     </div>
   );

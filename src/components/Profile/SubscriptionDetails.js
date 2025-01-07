@@ -36,7 +36,7 @@ const SubscriptionDetails = () => {
   }, []);
 
   return (
-    <Card className="col noBorder">
+    <Card className="col">
       <div className="Box padding-lg">
         {/*
         State 1: customer exists - is subscribed => Show manage subscription button
