@@ -148,12 +148,15 @@ body {
   flex-direction: column;
 }
 .desktop-box {
-  max-width: 768px;
+  max-width: 767px;
 }
 
 /* Flexbox */
 .flex {
   display: flex;
+}
+.flex.wrap {
+  flex-wrap: wrap;
 }
 .flex.center {
   justify-content: center;
