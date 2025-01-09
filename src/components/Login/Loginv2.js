@@ -53,9 +53,10 @@ const LoginV2 = () => {
           <ButtonV2
             onClick={() => handleSendEmailLink({ email, auth, setIsEmailLinkSent })}
             disabled={!isValidEmail({ email })}
-          >
+            >
             Continue
           </ButtonV2>
+          {isEmailLinkSent && <div className="text size-sm color-grayscale-7">We sent an email to {email}. Please click the link on the email to continue the login process.</div>}
         </div>
       </div>
     </>
