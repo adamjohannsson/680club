@@ -1,4 +1,5 @@
 import ButtonV2 from '../Form/ButtonV2';
+import responsive from '../../utils/responsive';
 import roundCheckmark from '../../assets/round-checkmark-green.png';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -67,7 +68,7 @@ const SetupCheckAndCongratulations = () => {
       <div className='text title center size-xxl'>Well done!</div>
       <div className='text center padding-top-bottom-lg padding-left-right-lg size-md'>Congrats on setting up. We'll keep you in the loop when your credit score increases.</div>
 
-      <div className='thumb'>
+      <div className={`${responsive.isWeb() ? '' : 'thumb'}`}>
         <div className='padding-lg'>
           <ButtonV2 onClick={() => navigate('/dashboard')}>Go to Credit dashboard</ButtonV2>
         </div>

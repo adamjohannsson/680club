@@ -2,7 +2,7 @@ import Icon from '../Icon/Icon';
 import ButtonV2 from '../Form/ButtonV2';
 import { useState } from 'react';
 import { icon } from '../../data/constants';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { auth } from '../../utils/firebase.init';
 import { isValidEmail } from '../../utils/validators';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -28,6 +28,7 @@ const validateEmailLinkAuth = async ({ email }) => {
 };
 
 const LoginFinishAfterClickingEmailLinkV2 = () => {
+  const navigate = useNavigate();
   const [user, loading] = useAuthState(auth);
   const [email, setEmail] = useState(
     getLocalStorageItem({ key: 'userEmailForLogin', defaultValue: '' }),
@@ -39,7 +40,7 @@ const LoginFinishAfterClickingEmailLinkV2 = () => {
 
   return (
     <div className="flex column gap-xl padding-top-bottom-xl padding-left-right-xxl">
-      <div className="flex align-center gap-md">
+      <div className="flex align-center gap-md" onClick={() => navigate('/login')}>
         <Icon name={icon.back} />
         <div className="text size-sm">Back</div>
       </div>
