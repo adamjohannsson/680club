@@ -8,6 +8,13 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../utils/firebase.init";
 import { dataLayer } from "../../data/dataLayer";
+import { buildQueryParams } from "../../utils/urls";
+
+const beginSubscriptionFlowInNewTab = ({customer}) => {
+  const customerCreatePricingTableUrl = `${process.env.REACT_APP_BACKEND_URL}/customer-create-pricing-table${buildQueryParams({clubUserId: customer.id})}`;
+
+  window.open(customerCreatePricingTableUrl, '_blank');
+}
 
 const AddCardMobileButton = ({navigate}) => {
   return (
@@ -23,11 +30,13 @@ const AddCardMobileButton = ({navigate}) => {
 const ProfileV2 = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
+  const [customer, setCustomer] = useState({});
   const [connectedAccounts, setConnectedAccounts] = useState([]);
 
   useEffect(() => {
     dataLayer.user.onGet({id: auth.currentUser.uid, callback: ({document}) => setUser(document)});
-    dataLayer.connectedAccount.onGetList({userId: auth.currentUser.uid, callback: ({docs}) => setConnectedAccounts([docs[0], docs[0], docs[0]])});
+    dataLayer.customer.onGet({clubUserId: auth.currentUser.uid, callback: ({customer}) => setCustomer(customer)});
+    dataLayer.connectedAccount.onGetList({userId: auth.currentUser.uid, callback: ({docs}) => setConnectedAccounts(docs)});
   }, []);
 
   return (
@@ -82,7 +91,7 @@ const ProfileV2 = () => {
         <div className='text title size-xxl'>Membership</div>
         <div className='text light size-md'>You are currently a member!</div>
 
-        <ButtonV2>Manage membership</ButtonV2>
+        <ButtonV2 onClick={() => beginSubscriptionFlowInNewTab({customer})}>Manage membership</ButtonV2>
       </div>
     </>
   );
