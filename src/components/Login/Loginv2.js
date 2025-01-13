@@ -37,7 +37,10 @@ const LoginV2 = () => {
     <>
       <AppBarV2 />
 
-      <div className="flex column gap-xl padding-top-bottom-xl padding-left-right-xxl">
+      <div className="desktop-container">
+        <div className="desktop-box" style={{width: '100%'}}>
+
+          <div className="flex column gap-xl padding-top-bottom-xl padding-left-right-xxl">
         <div className="flex align-center gap-md">
           <Icon name={icon.back} />
           <div className="text size-sm">Back</div>
@@ -59,6 +62,10 @@ const LoginV2 = () => {
           {isEmailLinkSent && <div className="text size-sm color-grayscale-7">We sent an email to {email}. Please click the link on the email to continue the login process.</div>}
         </div>
       </div>
+
+        </div>
+      </div>
+
     </>
   );
 };
