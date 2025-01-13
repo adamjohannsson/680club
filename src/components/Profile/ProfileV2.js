@@ -5,12 +5,13 @@ import responsive from "../../utils/responsive";
 import CreditCardLogo from "../Global/CreditCardLogo";
 import { icon } from "../../data/constants";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../../utils/firebase.init";
 import { dataLayer } from "../../data/dataLayer";
 
-const AddCardMobileButton = () => {
+const AddCardMobileButton = ({navigate}) => {
   return (
-    <ButtonV2 padding='a padding-top-bottom-sm padding-left-right-md'>
+    <ButtonV2 padding='a padding-top-bottom-sm padding-left-right-md' onClick={() => {navigate('/connected-account')}}>
       <div className='flex center gap-sm'>
         <Icon name={icon.plusCircle} dimensions={24} stroke='#ffffff' fill='#000000' />
         <div>Add card</div>
@@ -20,6 +21,7 @@ const AddCardMobileButton = () => {
 }
 
 const ProfileV2 = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [connectedAccounts, setConnectedAccounts] = useState([]);
 
@@ -43,7 +45,7 @@ const ProfileV2 = () => {
       <div className='flex column gap-md padding-left-right-xxl'>
         <div className='flex justify-between align-center'>
           <div className='text title size-xxl'>Credit cards</div>
-          {responsive.isWeb() && <AddCardMobileButton />}
+          {responsive.isWeb() && <AddCardMobileButton navigate={navigate} />}
         </div>
 
         <div className='text light size-md'>Watch as your credit score increases. Here’s how to check your score with RBC.</div>
@@ -73,7 +75,7 @@ const ProfileV2 = () => {
           ))}
         </div>
 
-        {!responsive.isWeb() && <ButtonV2>Add card</ButtonV2>}
+        {!responsive.isWeb() && <ButtonV2 onClick={() => {navigate('/connected-account')}}>Add card</ButtonV2>}
       </div>
 
       <div className='flex column gap-md padding-xxl'>
