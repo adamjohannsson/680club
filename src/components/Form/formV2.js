@@ -64,8 +64,8 @@ const connectedAccount = {
     placeholder: '8234 9234 9234 1202',
     required: true,
     isValid: true,
-    // Value has at least 16 digits
-    validator: ({target}) => target.value.length >= 16,
+    // Value has at least 15 digits
+    validator: ({target}) => target.value.length >= 15,
     // Remove everything except numbers and spaces
     formatter: ({target}) => target.value.replace(/[^\d\s]/g, ''),
   },

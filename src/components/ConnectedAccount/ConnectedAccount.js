@@ -2,16 +2,17 @@ import Icon from "../Icon/Icon";
 import InputV2 from "../Form/InputV2";
 import ButtonV2 from "../Form/ButtonV2";
 import templates from "../../data/templates";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { icon } from "../../data/constants";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { dataLayer } from "../../data/dataLayer";
 import { formMetadata, formV2 } from "../Form/formV2";
 import { auth } from "../../utils/firebase.init";
 import { getCreditCardProvider } from "../../utils/strings";
 
-const updateConnectedAccount = async ({ connectedAccount, userId, navigate }) => {
-  const creditCardCreateResponse = await dataLayer.creditCard.create({ clubUserId: userId, cardNumber: connectedAccount.cardNumber });
+const updateConnectedAccount = async ({ userId, connectedAccount, navigate }) => {
+  const creditCardCreateResponse = await dataLayer.creditCard.update({ userId, cardNumber: connectedAccount.cardNumber, token: connectedAccount.token });
+  // const creditCardCreateResponse = await dataLayer.creditCard.update({ userId, creditCardId: connectedAccount.creditCardId });
 
   if (!creditCardCreateResponse.token) {
     /** @TODO Handle error */
@@ -29,14 +30,22 @@ const updateConnectedAccount = async ({ connectedAccount, userId, navigate }) =>
 
   await dataLayer.connectedAccount.update({ connectedAccount: dataToPersist });
 
-  navigate('/dashboard');
+  const url = connectedAccount.id ? `/profile` : '/dashboard';
+  navigate(url);
 };
 
 const ConnectedAccount = () => {
   const navigate = useNavigate();
+  const { connectedAccountId } = useParams();
   const [metadata, setMetadata] = useState(formMetadata.connectedAccount);
   const [connectedAccount, setConnectedAccount] = useState(templates.connectedAccount);
   const form = formV2.get({metadata, setMetadata});
+
+  useEffect(() => {
+    if (connectedAccountId) {
+      dataLayer.connectedAccount.onGet({userId: auth.currentUser.uid, connectedAccountId, callback: ({doc}) => setConnectedAccount(doc)});
+    }
+  }, []);
 
   return (
     <>
@@ -60,7 +69,7 @@ const ConnectedAccount = () => {
           <div className='text light size-sm'>You can use your BorderPass provided RBC card, if you don't have one!</div>
         </div>
 
-        <ButtonV2 disabled={!form.isValid()} onClick={() => updateConnectedAccount({connectedAccount, userId: auth.currentUser.uid, navigate})}>Save card</ButtonV2>
+        <ButtonV2 disabled={!form.isValid()} onClick={() => updateConnectedAccount({userId: auth.currentUser.uid, connectedAccount, navigate})}>Save card</ButtonV2>
       </div>
     </>
   )
