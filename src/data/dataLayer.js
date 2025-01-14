@@ -96,9 +96,9 @@ const setCallbackAfterGetList = async ({ query, callback }) => {
 
 /* Credit Card */
 const creditCard = {
-  create: async ({ clubUserId, cardNumber }) => {
-    return await clubApi.creditCard.create({ clubUserId, cardNumber });
-  }
+  update: async ({ userId, cardNumber, token }) => {
+    return await clubApi.creditCard.update({ clubUserId: userId, cardNumber, currentToken: token });
+  },
 }
 
 
