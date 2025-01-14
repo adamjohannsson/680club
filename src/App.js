@@ -8,10 +8,9 @@ import AppBarV2 from './components/AppBar/AppBarV2';
 import ProfileV2 from './components/Profile/ProfileV2';
 import Dashboard from './components/Dashboard/Dashboard';
 import NotFoundPage from './components/Global/NotFoundPage';
-import PersonalInfo from './components/Profile/PersonalInfo';
-import EditConnectedAccount from './components/Profile/EditConnectedAccount';
 import ConnectedAccount from './components/ConnectedAccount/ConnectedAccount';
 import TermsAndConditions from './components/Prerequisites/TermsAndConditions';
+import UserAllPersonalInfo from './components/Prerequisites/UserAllPersonalInfo';
 import UserRequiredPersonalInfo from './components/Prerequisites/UserRequiredPersonalInfo';
 import SetupCheckAndCongratulations from './components/Prerequisites/SetupCheckAndCongratulations';
 import LoginFinishAfterClickingEmailLinkV2 from './components/Login/LoginFinishAfterClickingEmailLinkV2';
@@ -32,7 +31,7 @@ const createRouter = () => {
       element: <ProfileV2 />,
     },
     {
-      path: '/connected-account',
+      path: '/connected-account/:connectedAccountId?',
       element: <ConnectedAccount />,
     },
     {
@@ -48,16 +47,12 @@ const createRouter = () => {
       element: <UserRequiredPersonalInfo />,
     },
     {
-      path: '/personal-info',
-      element: <PersonalInfo />,
+      path: '/user-all-personal-info',
+      element: <UserAllPersonalInfo />,
     },
     {
       path: '/login-finish-after-clicking-email-link',
       element: <LoginFinishAfterClickingEmailLinkV2 />,
-    },
-    {
-      path: '/profile/edit-connected-account/:id?',
-      element: <EditConnectedAccount />,
     },
   ]);
 };

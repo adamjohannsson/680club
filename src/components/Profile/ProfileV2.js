@@ -10,6 +10,11 @@ import { auth } from "../../utils/firebase.init";
 import { dataLayer } from "../../data/dataLayer";
 import { buildQueryParams } from "../../utils/urls";
 
+const deleteConnectedAccount = ({userId, connectedAccountId, setConnectedAccounts}) => {
+    dataLayer.connectedAccount.remove({userId, connectedAccountId});
+    dataLayer.connectedAccount.onGetList({userId, active: true, callback: ({ docs }) => setConnectedAccounts(docs)});
+}
+
 const beginSubscriptionFlowInNewTab = ({customer}) => {
   const customerCreatePricingTableUrl = `${process.env.REACT_APP_BACKEND_URL}/customer-create-pricing-table${buildQueryParams({clubUserId: customer.id})}`;
 
@@ -47,7 +52,7 @@ const ProfileV2 = () => {
         <div className='text light size-md'>{user.fullName}'s profile</div>
 
         <div className={responsive.isWeb() ? 'flex justify-end' : ''}>
-          <ButtonV2>Edit profile</ButtonV2>
+          <ButtonV2 onClick={() => navigate('/user-all-personal-info')}>Edit profile</ButtonV2>
         </div>
       </div>
 
@@ -76,8 +81,8 @@ const ProfileV2 = () => {
                 <div className='padding-md'></div>
 
                 <div className='flex justify-between align-center padding-top-bottom-sm padding-left-right-lg background-grayscale-0' style={{ borderTop: '1px solid #D5D7DA' }}>
-                  <div className='text size-md'>Delete</div>
-                  <ButtonV2 color='color-grayscale-10' backgroundColor='background-grayscale-0' style={{ border: '1px solid #D5D7DA', borderRadius: '12px', padding: '12px' }}>Edit</ButtonV2>
+                  <div className='text size-md pointer' onClick={() => deleteConnectedAccount({userId: auth.currentUser.uid, connectedAccountId: connectedAccount.id, setConnectedAccounts})}>Delete</div>
+                  <ButtonV2 color='color-grayscale-10' backgroundColor='background-grayscale-0' style={{ border: '1px solid #D5D7DA', borderRadius: '12px', padding: '12px' }} onClick={() => navigate(`/connected-account/${connectedAccount.id}`)}>Edit</ButtonV2>
                 </div>
               </div>
             </Card>

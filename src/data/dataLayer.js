@@ -146,31 +146,18 @@ const connectedAccount = {
 
     setCallbackAfterGetList({ query: q, callback });
   },
-}
+  remove: async ({ userId, connectedAccountId, permanently = false }) => {
+    if (permanently) {
+      const docRef = doc(db, `users/${userId}/connectedAccounts`, connectedAccountId);
 
-const removeConnectedAccount = async ({
-  uid,
-  connectedAccountId,
-  permanently = false,
-}) => {
-  if (permanently) {
-    const docRef = doc(
-      db,
-      `users/${uid}/connectedAccounts`,
-      connectedAccountId,
-    );
+      await deleteDoc(docRef);
+    } else {
+      const docRef = doc(db, `users/${userId}/connectedAccounts`, connectedAccountId);
 
-    await deleteDoc(docRef);
-  } else {
-    const docRef = doc(
-      db,
-      `users/${uid}/connectedAccounts`,
-      connectedAccountId,
-    );
-
-    deactivateDoc({ docRef });
+      deactivateDoc({ docRef });
+    }
   }
-};
+}
 
 
 /* User */
@@ -224,5 +211,4 @@ export {
   dataLayer,
   getUser,
   setUser,
-  removeConnectedAccount,
 };
