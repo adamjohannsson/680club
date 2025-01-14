@@ -97,10 +97,10 @@ const helpers = {
 /* Credit Card */
 
 const creditCard = {
-  create: async ({ clubUserId, cardNumber }) => {
+  update: async ({ clubUserId, cardNumber, currentToken }) => {
     return await helpers.getDataFromPostEndpoint({
-      endpoint: 'credit-card-create',
-      queryParams: { clubUserId, cardNumber },
+      endpoint: 'credit-card-update',
+      queryParams: { clubUserId, cardNumber, currentToken },
     });
   }
 }
