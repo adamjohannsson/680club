@@ -29,7 +29,7 @@ const handleSendEmailLink = ({ email, auth, setIsEmailLinkSent }) => {
 const LoginV2 = () => {
   const auth = getAuth();
   const [email, setEmail] = useState(
-    getLocalStorageItem({ key: 'userEmailForLogin', defaultValue: 'asd' }),
+    getLocalStorageItem({ key: 'userEmailForLogin', defaultValue: '' }),
   );
   const [isEmailLinkSent, setIsEmailLinkSent] = useState(false);
 

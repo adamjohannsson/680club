@@ -21,17 +21,6 @@ const beginSubscriptionFlowInNewTab = ({customer}) => {
   window.open(customerCreatePricingTableUrl, '_blank');
 }
 
-const AddCardMobileButton = ({navigate}) => {
-  return (
-    <ButtonV2 padding='a padding-top-bottom-sm padding-left-right-md' onClick={() => {navigate('/connected-account')}}>
-      <div className='flex center gap-sm'>
-        <Icon name={icon.plusCircle} dimensions={24} stroke='#ffffff' fill='#000000' />
-        <div>Add card</div>
-      </div>
-    </ButtonV2>
-  )
-}
-
 const AddCardButton = ({shouldRender, navigate, connectedAccounts}) => {
   const isAllowedToAddCard = connectedAccounts.length < 5;
 
