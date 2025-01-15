@@ -32,6 +32,27 @@ const AddCardMobileButton = ({navigate}) => {
   )
 }
 
+const AddCardButton = ({shouldRender, navigate, connectedAccounts}) => {
+  const isAllowedToAddCard = connectedAccounts.length < 5;
+
+  if(!isAllowedToAddCard || !shouldRender) {
+    return null;
+  }
+
+  const isWeb = responsive.isWeb();
+  return !isWeb ? (
+    <ButtonV2 onClick={() => {navigate('/connected-account')}}>Add card</ButtonV2>
+  ) : (
+    <ButtonV2 padding='a padding-top-bottom-sm padding-left-right-md' onClick={() => {navigate('/connected-account')}}>
+      <div className='flex center gap-sm'>
+        <Icon name={icon.plusCircle} dimensions={24} stroke='#ffffff' fill='#000000' />
+
+        <div>Add card</div>
+      </div>
+    </ButtonV2>
+  )
+}
+
 const ProfileV2 = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
@@ -40,7 +61,7 @@ const ProfileV2 = () => {
 
   useEffect(() => {
     dataLayer.user.onGet({id: auth.currentUser.uid, callback: ({document}) => setUser(document)});
-    dataLayer.customer.onGet({clubUserId: auth.currentUser.uid, callback: ({customer}) => setCustomer(customer)});
+    dataLayer.customer.onGet({clubUserId: auth.currentUser.uid, email: auth.currentUser.email, callback: ({customer}) => setCustomer(customer)});
     dataLayer.connectedAccount.onGetList({userId: auth.currentUser.uid, callback: ({docs}) => setConnectedAccounts(docs)});
   }, []);
 
@@ -59,7 +80,7 @@ const ProfileV2 = () => {
       <div className='flex column gap-md padding-left-right-xxl'>
         <div className='flex justify-between align-center'>
           <div className='text title size-xxl'>Credit cards</div>
-          {responsive.isWeb() && <AddCardMobileButton navigate={navigate} />}
+          <AddCardButton shouldRender={responsive.isWeb()} connectedAccounts={connectedAccounts} navigate={navigate} />
         </div>
 
         <div className='text light size-md'>Watch as your credit score increases. Here’s how to check your score with RBC.</div>
@@ -89,12 +110,12 @@ const ProfileV2 = () => {
           ))}
         </div>
 
-        {!responsive.isWeb() && <ButtonV2 onClick={() => {navigate('/connected-account')}}>Add card</ButtonV2>}
+        <AddCardButton shouldRender={!responsive.isWeb()} connectedAccounts={connectedAccounts} navigate={navigate} />
       </div>
 
       <div className='flex column gap-md padding-xxl'>
         <div className='text title size-xxl'>Membership</div>
-        <div className='text light size-md'>You are currently a member!</div>
+        <div className='text light size-md'>{(customer.subscriptions && customer.subscriptions.length > 0) ? 'You are currently a member!' : 'Please subscribe to a plan to see your credit score improve on your credit cards.'}</div>
 
         <ButtonV2 onClick={() => beginSubscriptionFlowInNewTab({customer})}>Manage membership</ButtonV2>
       </div>
