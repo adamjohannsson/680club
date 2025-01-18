@@ -1,7 +1,7 @@
 # Use this script with 'sh src/utils/git-commit.sh' to commit your changes to the current branch.
 
 # This script will:
-# 1. Prompt you to enter a commit message 
+# 1. Prompt you to enter a commit message
 # 2. Commit your changes to the current branch, automatically prependint the branch name to your commit message.
 clear;
 
@@ -17,7 +17,9 @@ echo "";
 echo "Notice: no need to write current branch name - it will be added automagically.";
 echo "";
 
-echo "Your commit message:";
+# Change the text colour to green
+echo "\033[32mYour commit message:\033[0m";
 read commitmessage;
+echo ""; echo ""; echo "";
 
 git branch --show-current | xargs -I ${branch-name} git commit -m "${branch-name} ${commitmessage}";

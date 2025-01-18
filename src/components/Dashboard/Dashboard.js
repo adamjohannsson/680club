@@ -31,7 +31,7 @@ const ThumbMenu = ({ navigate }) => {
 
 const AccountSettingsButton = ({ navigate }) => {
   return (
-    <div className='flex align-center gap-md rounded-xs background-grayscale-10 padding-top-bottom-xs padding-left-right-md' onClick={() => {navigate('/profile')}}>
+    <div className='flex align-center gap-md rounded-xs background-grayscale-10 padding-top-bottom-xs padding-left-right-md pointer' onClick={() => {navigate('/profile')}}>
       <Icon name={icon.settings} stroke='#ffffff' fill='#000000' />
       <div className='text size-md color-grayscale-0'>Account settings</div>
     </div>
