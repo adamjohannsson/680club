@@ -63,7 +63,7 @@ const connectedAccount = {
     label: 'Card number',
     placeholder: '8234 9234 9234 1202',
     required: true,
-    isValid: true,
+    isValid: false,
     // Value has at least 15 digits
     validator: ({target}) => target.value.length >= 15,
     // Remove everything except numbers and spaces

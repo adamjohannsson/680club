@@ -1,6 +1,7 @@
 import Icon from "../Icon/Icon";
 import Card from "../Global/Card";
 import ButtonV2 from "../Form/ButtonV2";
+import BackButton from "../Global/BackButton";
 import responsive from "../../utils/responsive";
 import CreditCardLogo from "../Global/CreditCardLogo";
 import { icon } from "../../data/constants";
@@ -57,6 +58,8 @@ const ProfileV2 = () => {
   return (
     <>
       <div className='flex column gap-md padding-xxl'>
+        <BackButton backUrl='/dashboard' />
+
         <div className='text title size-xxl'>Profile</div>
 
         <div className='text light size-md'>{user.fullName}'s profile</div>
@@ -104,7 +107,7 @@ const ProfileV2 = () => {
 
       <div className='flex column gap-md padding-xxl'>
         <div className='text title size-xxl'>Membership</div>
-        <div className='text light size-md'>{(customer.subscriptions && customer.subscriptions.length > 0) ? 'You are currently a member!' : 'Please subscribe to a plan to see your credit score improve on your credit cards.'}</div>
+        <div className='text light size-md'>{(customer && customer.subscriptions && customer.subscriptions.length > 0) ? 'You are currently a member!' : 'Please subscribe to a plan to see your credit score improve on your credit cards.'}</div>
 
         <ButtonV2 onClick={() => beginSubscriptionFlowInNewTab({customer})}>Manage membership</ButtonV2>
       </div>

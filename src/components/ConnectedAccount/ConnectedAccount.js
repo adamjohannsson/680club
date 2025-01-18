@@ -1,13 +1,12 @@
-import Icon from "../Icon/Icon";
 import InputV2 from "../Form/InputV2";
 import ButtonV2 from "../Form/ButtonV2";
 import templates from "../../data/templates";
+import BackButton from "../Global/BackButton";
 import { useEffect, useState } from "react";
-import { icon } from "../../data/constants";
-import { useNavigate, useParams } from "react-router-dom";
 import { dataLayer } from "../../data/dataLayer";
-import { formMetadata, formV2 } from "../Form/formV2";
 import { auth } from "../../utils/firebase.init";
+import { formMetadata, formV2 } from "../Form/formV2";
+import { useNavigate, useParams } from "react-router-dom";
 import { getCreditCardProvider } from "../../utils/strings";
 
 const updateConnectedAccount = async ({ userId, connectedAccount, navigate }) => {
@@ -30,8 +29,7 @@ const updateConnectedAccount = async ({ userId, connectedAccount, navigate }) =>
 
   await dataLayer.connectedAccount.update({ connectedAccount: dataToPersist });
 
-  const url = connectedAccount.id ? `/profile` : '/dashboard';
-  navigate(url);
+  navigate('/profile');
 };
 
 const ConnectedAccount = () => {
@@ -50,10 +48,7 @@ const ConnectedAccount = () => {
   return (
     <>
       <div className="flex column gap-sm padding-xl">
-        <div className="flex align-center gap-md">
-          <Icon name={icon.back} />
-          <div className="text size-sm">Back</div>
-        </div>
+        <BackButton backUrl='/profile' />
 
         <div className="text title size-xxl">Connect your card</div>
         <div className="text light size-md">We will make periodic payments to your card, which is what will increase your credit score.</div>

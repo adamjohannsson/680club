@@ -1,14 +1,13 @@
-import Icon from '../Icon/Icon';
+import InputV2 from '../Form/InputV2';
 import ButtonV2 from '../Form/ButtonV2';
+import BackButton from '../Global/BackButton';
 import { useState } from 'react';
-import { icon } from '../../data/constants';
-import { Navigate, useNavigate } from 'react-router-dom';
 import { auth } from '../../utils/firebase.init';
 import { isValidEmail } from '../../utils/validators';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { getLocalStorageItem } from '../../utils/localStorage';
 import { isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
-import InputV2 from '../Form/InputV2';
 
 const validateEmailLinkAuth = async ({ email }) => {
   const isLinkValid = isSignInWithEmailLink(auth, window.location.href);
@@ -40,10 +39,7 @@ const LoginFinishAfterClickingEmailLinkV2 = () => {
 
   return (
     <div className="flex column gap-xl padding-top-bottom-xl padding-left-right-xxl">
-      <div className="flex align-center gap-md" onClick={() => navigate('/login')}>
-        <Icon name={icon.back} />
-        <div className="text size-sm">Back</div>
-      </div>
+      <BackButton backUrl='/login' />
 
       <div className="text title size-xxl">Please confirm your email</div>
 

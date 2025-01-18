@@ -28,6 +28,10 @@ const handleSendEmailLink = ({ email, auth, setIsEmailLinkSent }) => {
 
 const LoginV2 = () => {
   const auth = getAuth();
+  // remove value from localStorage if it's not a valid email
+  if (!isValidEmail({ email: getLocalStorageItem({ key: 'userEmailForLogin', defaultValue: '' }) })) {
+    window.localStorage.removeItem('userEmailForLogin');
+  }
   const [email, setEmail] = useState(
     getLocalStorageItem({ key: 'userEmailForLogin', defaultValue: '' }),
   );
@@ -38,30 +42,24 @@ const LoginV2 = () => {
       <AppBarV2 />
 
       <div className="desktop-container">
-        <div className="desktop-box" style={{width: '100%'}}>
-
+        <div className="desktop-box" style={{ width: '100%' }}>
           <div className="flex column gap-xl padding-top-bottom-xl padding-left-right-xxl">
-        <div className="flex align-center gap-md">
-          <Icon name={icon.back} />
-          <div className="text size-sm">Back</div>
-        </div>
+            <div className="text title size-xxl">Login</div>
 
-        <div className="text title size-xxl">Login</div>
+            <div className="padding-xxs"></div>
 
-        <div className="padding-xxs"></div>
+            <div className="flex column gap-md">
+              <InputV2 value={email} propertyName="email" metadata={{ email: { type: 'email', placeholder: 'Enter your email' } }} onChange={({ target }) => setEmail(target.value)} />
 
-        <div className="flex column gap-md">
-          <InputV2 value={email} propertyName="email" metadata={{email: {type: 'email', placeholder: 'Enter your email'}}} onChange={({target}) => setEmail(target.value)} />
-
-          <ButtonV2
-            onClick={() => handleSendEmailLink({ email, auth, setIsEmailLinkSent })}
-            disabled={!isValidEmail({ email })}
-            >
-            Continue
-          </ButtonV2>
-          {isEmailLinkSent && <div className="text size-sm color-grayscale-7">We sent an email to {email}. Please click the link on the email to continue the login process.</div>}
-        </div>
-      </div>
+              <ButtonV2
+                onClick={() => handleSendEmailLink({ email, auth, setIsEmailLinkSent })}
+                disabled={!isValidEmail({ email })}
+              >
+                Continue
+              </ButtonV2>
+              {isEmailLinkSent && <div className="text size-sm color-grayscale-7">We sent an email to {email}. Please click the link on the email to continue the login process.</div>}
+            </div>
+          </div>
 
         </div>
       </div>
