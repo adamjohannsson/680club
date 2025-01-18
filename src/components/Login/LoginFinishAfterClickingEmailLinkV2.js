@@ -1,11 +1,11 @@
 import InputV2 from '../Form/InputV2';
 import ButtonV2 from '../Form/ButtonV2';
 import BackButton from '../Global/BackButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { auth } from '../../utils/firebase.init';
 import { isValidEmail } from '../../utils/validators';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { getLocalStorageItem } from '../../utils/localStorage';
 import { isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
 
@@ -27,11 +27,18 @@ const validateEmailLinkAuth = async ({ email }) => {
 };
 
 const LoginFinishAfterClickingEmailLinkV2 = () => {
-  const navigate = useNavigate();
   const [user, loading] = useAuthState(auth);
   const [email, setEmail] = useState(
     getLocalStorageItem({ key: 'userEmailForLogin', defaultValue: '' }),
   );
+
+  useEffect(() => {
+    const emailInLocalStorage = getLocalStorageItem({ key: 'userEmailForLogin', defaultValue: null });
+
+    if (emailInLocalStorage !== null) {
+      validateEmailLinkAuth({ email: emailInLocalStorage });
+    }
+  }, []);
 
   if (user) {
     return <Navigate to="/" />;

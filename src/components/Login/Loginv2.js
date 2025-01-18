@@ -1,9 +1,7 @@
-import Icon from "../Icon/Icon";
 import InputV2 from "../Form/InputV2";
 import ButtonV2 from "../Form/ButtonV2";
 import AppBarV2 from "../AppBar/AppBarV2";
 import { useState } from "react";
-import { icon } from "../../data/constants";
 import { isValidEmail } from "../../utils/validators";
 import { actionCodeSettings } from "../../utils/firebase.init";
 import { getLocalStorageItem } from "../../utils/localStorage";
