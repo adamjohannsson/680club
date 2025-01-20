@@ -66,8 +66,8 @@ const connectedAccount = {
     isValid: false,
     // Value has at least 15 digits
     validator: ({target}) => target.value.length >= 15,
-    // Remove everything except numbers and spaces
-    formatter: ({target}) => target.value.replace(/[^\d\s]/g, ''),
+    // Remove everything except numbers, then add a space every 4 digits
+    formatter: ({target}) => target.value.replace(/[^\d]/g, '').replace(/(\d{4})(?=\d)/g, '$1 '),
   },
 }
 
