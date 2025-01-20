@@ -9,8 +9,12 @@ import { buildQueryParams } from '../../utils/urls';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 const checkSubscription = async ({ authUser, user, navigate }) => {
-  /** @TODO manage errors in connections to backend */
   const customer = await dataLayer.customer.get({ clubUserId: authUser.uid, email: authUser.email });
+  /** @TODO manage errors in connections to backend */
+  if(!customer) {
+    console.log('No customer found. This should not happen. Probable cause is failure to connect to backend, or failure for backend to connect to Stripe.');
+    return;
+  }
   const isSubscribed = customer.subscriptions && customer.subscriptions.length > 0 ? true : false;
 
   console.log({customer, isSubscribed});
