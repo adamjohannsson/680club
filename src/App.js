@@ -17,6 +17,7 @@ import LoginFinishAfterClickingEmailLinkV2 from './components/Login/LoginFinishA
 import { auth } from './utils/firebase.init';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import PrivacyPolicy from './components/Prerequisites/PrivacyPolicy';
 
 const createRouter = () => {
   return createBrowserRouter([
@@ -41,6 +42,10 @@ const createRouter = () => {
     {
       path: '/terms-and-conditions',
       element: <TermsAndConditions />,
+    },
+    {
+      path: '/privacy-policy',
+      element: <PrivacyPolicy />,
     },
     {
       path: '/user-required-personal-info',
