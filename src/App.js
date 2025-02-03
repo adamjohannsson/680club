@@ -8,6 +8,7 @@ import AppBarV2 from './components/AppBar/AppBarV2';
 import ProfileV2 from './components/Profile/ProfileV2';
 import Dashboard from './components/Dashboard/Dashboard';
 import NotFoundPage from './components/Global/NotFoundPage';
+import PrivacyPolicy from './components/Prerequisites/PrivacyPolicy';
 import ConnectedAccount from './components/ConnectedAccount/ConnectedAccount';
 import TermsAndConditions from './components/Prerequisites/TermsAndConditions';
 import UserAllPersonalInfo from './components/Prerequisites/UserAllPersonalInfo';
@@ -17,7 +18,6 @@ import LoginFinishAfterClickingEmailLinkV2 from './components/Login/LoginFinishA
 import { auth } from './utils/firebase.init';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import PrivacyPolicy from './components/Prerequisites/PrivacyPolicy';
 
 const createRouter = () => {
   return createBrowserRouter([
