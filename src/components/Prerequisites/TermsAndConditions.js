@@ -40,10 +40,6 @@ const TermsOfServiceItem = ({ title, description, list }) => {
 
 const termsOfServiceData = [
   {
-    title: 'No Access to Your Credit Score',
-    description: '680 Club does not have access to your credit score or any detailed financial data. We do not view or monitor your personal credit information'
-  },
-  {
     title: 'Subscription Service',
     description: '680 Club is a subscription-based service designed to help users optimize their credit score and other credit metrics to improve their overall credit standing. Individual results may vary, and users are encouraged to maintain responsible financial habits to maximize benefits.'
   },
