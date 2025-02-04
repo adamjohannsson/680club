@@ -6,8 +6,8 @@ const BackButton = ({ backUrl }) => {
   const navigate = useNavigate();
 
   return (
-    <div className='flex align-center gap-md pointer' onClick={() => navigate(backUrl)}>
-      <Icon name={icon.back} />
+    <div className='flex align-center gap-xs pointer' onClick={() => navigate(backUrl)}>
+      <Icon name={icon.back} dimensions='20' />
       <div className='text size-sm'>Back</div>
     </div>
   )

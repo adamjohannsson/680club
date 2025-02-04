@@ -1,7 +1,7 @@
 /* To speed up development we decided to put all CSS in this file. */
 /* As app grows we can move CSS to different files or load conditionally if ever needed */
 
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Readex+Pro:wght@160..700&display=swap');
 
 /* Colour palette */
 :root {
@@ -14,6 +14,7 @@
   --color-light-primary: #61aee2;
   --color-light-secondary: #55ccb0;
   --color-light-tertiary: #808edd;
+  --color-light-quaternary: #ffb2b2;
 
   --color-grayscale-0: #ffffff;
   --color-grayscale-1: #f5f5f5;
@@ -38,105 +39,42 @@ body {
 
 
 /* Layout */
-.padding-xxxs {
-  padding: 2px;
-}
-.padding-xxs {
-  padding: 4px;
-}
-.padding-xs {
-  padding: 6px;
-}
-.padding-sm {
-  padding: 8px;
-}
-.padding-md {
-  padding: 16px;
-}
-.padding-lg {
-  padding: 24px;
-}
-.padding-xl {
-  padding: 32px;
-}
-.padding-xxl {
-  padding: 64px;
-}
-.padding-xxxl {
-  padding: 128px;
-}
-.padding-top-bottom-xxxs {
-  padding-top: 2px;
-  padding-bottom: 2px;
-}
-.padding-top-bottom-xxs {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-.padding-top-bottom-xs {
-  padding-top: 6px;
-  padding-bottom: 6px;
-}
-.padding-top-bottom-sm {
-  padding-top: 8px;
-  padding-bottom: 8px;
-}
-.padding-top-bottom-md {
-  padding-top: 16px;
-  padding-bottom: 16px;
-}
-.padding-top-bottom-lg {
-  padding-top: 24px;
-  padding-bottom: 24px;
-}
-.padding-top-bottom-xl {
-  padding-top: 32px;
-  padding-bottom: 32px;
-}
-.padding-top-bottom-xxl {
-  padding-top: 64px;
-  padding-bottom: 64px;
-}
-.padding-top-bottom-xxxl {
-  padding-top: 128px;
-  padding-bottom: 128px;
-}
-.padding-left-right-xxxs {
-  padding-left: 2px;
-  padding-right: 2px;
-}
-.padding-left-right-xxs {
-  padding-left: 4px;
-  padding-right: 4px;
-}
-.padding-left-right-xs {
-  padding-left: 6px;
-  padding-right: 6px;
-}
-.padding-left-right-sm {
-  padding-left: 8px;
-  padding-right: 8px;
-}
-.padding-left-right-md {
-  padding-left: 16px;
-  padding-right: 16px;
-}
-.padding-left-right-lg {
-  padding-left: 24px;
-  padding-right: 24px;
-}
-.padding-left-right-xl {
-  padding-left: 32px;
-  padding-right: 32px;
-}
-.padding-left-right-xxl {
-  padding-left: 64px;
-  padding-right: 64px;
-}
-.padding-left-right-xxxl {
-  padding-left: 128px;
-  padding-right: 128px;
-}
+.padding-xxxs { padding: 2px; }
+.padding-xxs { padding: 4px; }
+.padding-xs { padding: 6px; }
+.padding-sm { padding: 8px; }
+.padding-md { padding: 16px; }
+.padding-lg { padding: 24px; }
+.padding-xl { padding: 32px; }
+.padding-xxl { padding: 64px; }
+.padding-xxxl { padding: 128px; }
+.padding-top-xxxs { padding-top: 2px; }
+.padding-top-xxs { padding-top: 4px; }
+.padding-top-xs { padding-top: 6px; }
+.padding-top-sm { padding-top: 8px; }
+.padding-top-md { padding-top: 16px; }
+.padding-top-lg { padding-top: 24px; }
+.padding-top-xl { padding-top: 32px; }
+.padding-top-xxl { padding-top: 64px; }
+.padding-top-xxxl { padding-top: 128px; }
+.padding-top-bottom-xxxs { padding-top: 2px; padding-bottom: 2px; }
+.padding-top-bottom-xxs { padding-top: 4px; padding-bottom: 4px; }
+.padding-top-bottom-xs { padding-top: 6px; padding-bottom: 6px; }
+.padding-top-bottom-sm { padding-top: 8px; padding-bottom: 8px; }
+.padding-top-bottom-md { padding-top: 16px; padding-bottom: 16px; }
+.padding-top-bottom-lg { padding-top: 24px; padding-bottom: 24px; }
+.padding-top-bottom-xl { padding-top: 32px; padding-bottom: 32px; }
+.padding-top-bottom-xxl { padding-top: 64px; padding-bottom: 64px; }
+.padding-top-bottom-xxxl { padding-top: 128px; padding-bottom: 128px; }
+.padding-left-right-xxxs { padding-left: 2px; padding-right: 2px; }
+.padding-left-right-xxs { padding-left: 4px; padding-right: 4px; }
+.padding-left-right-xs { padding-left: 6px; padding-right: 6px; }
+.padding-left-right-sm { padding-left: 8px; padding-right: 8px; }
+.padding-left-right-md { padding-left: 16px; padding-right: 16px; }
+.padding-left-right-lg { padding-left: 24px; padding-right: 24px; }
+.padding-left-right-xl { padding-left: 32px; padding-right: 32px; }
+.padding-left-right-xxl { padding-left: 64px; padding-right: 64px; }
+.padding-left-right-xxxl { padding-left: 128px; padding-right: 128px; }
 .thumb {
   position: fixed;
   bottom: 0;
@@ -371,6 +309,9 @@ input {
 .background-light-tertiary {
   background-color: var(--color-light-tertiary);
 }
+.background-light-quaternary {
+  background-color: var(--color-light-quaternary);
+}
 .background-grayscale-0 {
   background-color: var(--color-grayscale-0);
 }
@@ -484,6 +425,8 @@ img.size-width-xxxl {
 /* Typography */
 .text {
   line-height: 1;
+  font-weight: 300;
+  font-family: 'Readex Pro', sans-serif;
 }
 .text.title {
   font-family: 'Crimson Pro', serif;
@@ -493,7 +436,7 @@ img.size-width-xxxl {
   font-weight: 300;
 }
 .text.bold {
-  font-weight: 600;
+  font-weight: 400;
 }
 .text.center {
   text-align: center;
@@ -514,13 +457,13 @@ img.size-width-xxxl {
   font-size: 16px;
 }
 .text.size-lg {
-  font-size: 24px;
+  font-size: 20px;
 }
 .text.size-xl {
-  font-size: 32px;
+  font-size: 24px;
 }
 .text.size-xxl {
-  font-size: 48px;
+  font-size: 40px;
 }
 .text.size-xxxl {
   font-size: 64px;

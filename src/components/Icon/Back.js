@@ -3,51 +3,17 @@ const Back = ({ dimensions, stroke, fill }) => {
     <svg
       width={dimensions}
       height={dimensions}
-      viewBox="0 -2 20 20"
-      version="1.1"
+      viewBox="0 0 20 20"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      fill={fill}
     >
-      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-      <g
-        id="SVGRepo_tracerCarrier"
+      <path
+        d="M15.8327 9.9974H4.16602M4.16602 9.9974L9.99935 15.8307M4.16602 9.9974L9.99935 4.16406"
+        stroke={stroke}
+        strokeWidth="1.66667"
         strokeLinecap="round"
         strokeLinejoin="round"
-      ></g>
-      <g id="SVGRepo_iconCarrier">
-        {' '}
-        <title>
-          navigation / 6 - navigation, arrow, arrows, direction, left icon
-        </title>{' '}
-        <g
-          id="Free-Icons"
-          stroke="none"
-          strokeWidth="1"
-          fill="none"
-          fillRule="evenodd"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          {' '}
-          <g
-            transform="translate(-1117.000000, -676.000000)"
-            id="Group"
-            stroke={stroke}
-            strokeWidth="2"
-          >
-            {' '}
-            <g transform="translate(1115.000000, 672.000000)" id="Shape">
-              {' '}
-              <path
-                d="M13,5 L21,12 L13,19 M21,12 L3.00497942,12"
-                transform="translate(12.002490, 12.000000) scale(-1, 1) translate(-12.002490, -12.000000) "
-              >
-                {' '}
-              </path>{' '}
-            </g>{' '}
-          </g>{' '}
-        </g>{' '}
-      </g>
+      />
     </svg>
   );
 };
