@@ -7,6 +7,7 @@ import { auth } from "../../utils/firebase.init";
 import { dataLayer } from "../../data/dataLayer";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { formMetadata, formV2 } from "../Form/formV2";
+import StepIndicators from "./Stepindicators";
 
 const updateUserPersonalInfo = async ({ user, navigate }) => {
   await dataLayer.user.update({ user });
@@ -37,6 +38,8 @@ const UserRequiredPersonalInfo = () => {
       </div>
 
       <ButtonV2 disabled={!form.isValid()} onClick={() => updateUserPersonalInfo({ user, navigate })}>Continue to payment</ButtonV2>
+
+      <StepIndicators currentStep={2} />
     </div>
   )
 };

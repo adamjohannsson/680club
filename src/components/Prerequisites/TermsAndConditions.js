@@ -1,8 +1,9 @@
 import ButtonV2 from "../Form/ButtonV2";
 import templates from "../../data/templates";
-import { Link, useNavigate } from "react-router-dom";
+import StepIndicators from "./Stepindicators";
 import { auth } from "../../utils/firebase.init";
 import { dataLayer } from "../../data/dataLayer";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 const signTermsAndConditions = async ({ userId, navigate }) => {
@@ -100,6 +101,8 @@ const TermsAndConditions = () => {
 
 
       <ButtonV2 onClick={() => signTermsAndConditions({ userId: authUser.uid, navigate })}>Sign Terms of Service</ButtonV2>
+
+      <StepIndicators currentStep={1} />
     </div>
   )
 };
