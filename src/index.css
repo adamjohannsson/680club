@@ -1,31 +1,58 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
 
 * {
   box-sizing: border-box;
 }
 
+:root {
+  --color-orange-primary: #ff6b35;
+  --color-orange-glow: #ff8c61;
+  --color-grey-base: #2b2b2b;
+  --color-grey-light: #3d3d3d;
+  --color-grey-dark: #1a1a1a;
+  --color-pink-accent: #ff2a6d;
+  --color-green-neon: #05ffa1;
+  
+  --shadow-neon-orange: 0 0 5px #ff6b35, 0 0 20px #ff6b35;
+  --shadow-neon-accent: 0 0 5px #ff2a6d, 0 0 20px #ff2a6d;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.twinkle-1 { animation: twinkle 3s ease-in-out infinite; }
+.twinkle-2 { animation: twinkle 3s ease-in-out infinite 0.75s; }
+.twinkle-3 { animation: twinkle 3s ease-in-out infinite 1.5s; }
+.twinkle-4 { animation: twinkle 3s ease-in-out infinite 2.25s; }
+.spin { animation: spin 8s linear infinite; }
+
 body {
   margin: 0;
-  font-family:
-    'Roboto Flex',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Roboto',
-    'Segoe UI',
-    'Oxygen',
-    'Ubuntu',
-    'Cantarell',
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
-    sans-serif;
-  font-weight: 500;
+  font-family: 'Space Mono', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-grey-dark);
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 1.5;
+  
+  /* Grid background pattern */
+  background-image: radial-gradient(
+    circle at 50% 50%,
+    var(--color-orange-primary) 3%,
+    transparent 3%
+  );
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Space Mono', monospace;
 }
