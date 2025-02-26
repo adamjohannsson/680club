@@ -49,16 +49,16 @@ const Dashboard = () => {
   }, []);
 
   const StepInstructions = ({stepNumber, title, description}) => {
-    const backgroundColor = ['light-tertiary', 'light-primary', 'light-secondary'];
+    const backgroundColor = ['light-quaternary', 'light-primary', 'light-secondary', 'light-tertiary'];
 
     return (
       <div className='flex gap-md'>
-        <div className={`flex center circle background-${backgroundColor[(stepNumber % 3)]}`} style={{ minWidth: '48px', height: '48px'}}>
+        <div className={`flex center circle background-${backgroundColor[(stepNumber % backgroundColor.length)]}`} style={{ minWidth: '48px', height: '48px'}}>
           <div className='text size-lg color-grayscale-0'>{stepNumber}</div>
         </div>
 
         <div>
-          <div className='text size-lg'>{title}</div>
+          <div className='text bold size-lg'>{title}</div>
           <div className='text light size-md padding-top-bottom-sm'>{description}</div>
         </div>
       </div>
@@ -88,31 +88,41 @@ const Dashboard = () => {
         <OneThingLeftToDo />
       )}
 
-      <div className='padding-lg'>
-        <div className='flex align-center gap-md background-grayscale-0 padding-xxs' style={{ border: '2px solid #D5D7DA', borderRadius: '12px' }}>
+      <div className='padding-xl'></div>
+
+      <div className='padding-left-right-lg'>
+        <div className='flex align-center gap-sm background-grayscale-0 padding-xxs' style={{ border: '2px solid #D5D7DA', borderRadius: '12px' }}>
           <div className='flex align-center gap-xxs padding-xxxs padding-left-right-xs' style={{ border: '2px solid #D5D7DA', borderRadius: '8px' }}>
             <div>
               <img src={roundRadarDot} alt='info' style={{ width: '24px', height: '24px' }} />
             </div>
-            <div className='text size-md'>Live credit monitoring</div>
+            <div className='text bold size-xs'>Live credit monitoring</div>
           </div>
-          <div className='text size-md'>Coming soon!</div>
+          <div className='text bold size-xs'>Coming soon!</div>
         </div>
       </div>
 
-      <div className='flex column gap-lg padding-lg'>
+      <div className='flex column padding-top-bottom-xl padding-left-right-lg'>
         <div className='flex align-center justify-between'>
           <div className='text title size-xxl'>Credit bump</div>
 
           {responsive.isWeb() && <AccountSettingsButton navigate={navigate} />}
         </div>
-        <div className='text size-md'>Watch as your credit score increases. Here's how to check your score with RBC.</div>
+        <div className='text size-md padding-top-md'>Watch as your credit score increases. Here's how to check your score with RBC.</div>
 
-        <StepInstructions stepNumber={1} title='Access RBC online.' description='Go to the RBC website and log in to your online banking account using your username and password.' />
+        <div className='padding-top-bottom-md'></div>
 
-        <StepInstructions stepNumber={2} title='Find Credit Score section.' description='Once logged in, look for your profile in the top-right corner and select "View Your Credit Score" from the dropdown menu.' />
+        <div className='flex column gap-lg padding-top-sm'>
+          <StepInstructions stepNumber={1} title='Access RBC online.' description='Go to the RBC website and log in to your online banking account using your username and password.' />
 
-        <StepInstructions stepNumber={3} title='Review your score.' description='The credit score page will show your current score along with other relevant information, updated monthly.' />
+          <StepInstructions stepNumber={2} title='Find Credit Score section.' description='Once logged in, look for your profile in the top-right corner and select "View Your Credit Score" from the dropdown menu.' />
+
+          <StepInstructions stepNumber={3} title='Review your score.' description='The credit score page will show your current score along with other relevant information, updated monthly.' />
+
+          <StepInstructions stepNumber={4} title='Plan for what’s next.' description='Watch as your credit score increases over a period of just a few months. What can a higher score do for you? Buy a house?.' />
+
+          <div className='padding-top-bottom-xxl'></div>
+        </div>
       </div>
 
       {!responsive.isWeb() && <ThumbMenu navigate={navigate} />}
