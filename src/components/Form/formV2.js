@@ -1,3 +1,5 @@
+import { getAsPhoneNumber } from "../../utils/strings";
+
 const initializeMetadata = ({metadata = {}}) => {
   /** @TODO Add validations or completions to metadata */
   return metadata;
@@ -26,13 +28,13 @@ const userRequiredPersonalInfo = {
   phone: {
     type: 'tel',
     label: 'Phone',
-    placeholder: '(420) 420-1337',
+    placeholder: '(120) 432-1337',
     required: true,
     isValid: true,
-    // Allow only numbers spaces and dashes
-    validator: ({target}) => target.value.match(/^[0-9\s-]+$/),
-    // Remove everything except numbers, ' ' and '-'
-    formatter: ({target}) => target.value.replace(/[^\d\s-]/g, ''),
+    // Allow only numbers
+    validator: ({value}) => value.replace(/[^\d]/g, '').length === 10,
+    // Remove everything except numbers and format as phone number with this pattern: (123) 123-1234
+    formatter: ({value}) => getAsPhoneNumber({value}),
   },
   address: {
     type: 'text',
@@ -65,9 +67,9 @@ const connectedAccount = {
     required: true,
     isValid: false,
     // Value has at least 15 digits
-    validator: ({target}) => target.value.length >= 15,
+    validator: ({value}) => value.replace(/[^\d]/g, '').length >= 15,
     // Remove everything except numbers, then add a space every 4 digits
-    formatter: ({target}) => target.value.replace(/[^\d]/g, '').replace(/(\d{4})(?=\d)/g, '$1 '),
+    formatter: ({value}) => value.replace(/[^\d]/g, '').replace(/(\d{4})(?=\d)/g, '$1 '),
   },
 }
 

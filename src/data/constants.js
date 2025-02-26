@@ -19,6 +19,8 @@ const icon = {
   forward: 'forward',
   settings: 'settings',
   plusCircle: 'plusCircle',
+  stepCircleBase: 'stepCircleBase',
+  stepCircleCheck: 'stepCircleCheck',
 }
 
 const other = {

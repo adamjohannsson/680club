@@ -1,5 +1,20 @@
 import { creditCardProviders } from "./enums";
 
+// Format a string like 1234567890 like this: (123) 456-7890
+const getAsPhoneNumber = ({value}) => {
+  const onlyDigits = value.replace(/[^\d]/g, '');
+
+  if(onlyDigits.length < 4) {
+    return onlyDigits.replace(/(\d{1,3})/, '($1)');
+  }
+
+  if(onlyDigits.length < 7) {
+    return onlyDigits.replace(/(\d{3})(\d{1,3})/, '($1) $2');
+  }
+
+  return onlyDigits.replace(/(\d{3})(\d{3})(\d{1,4})/, '($1) $2-$3');
+};
+
 // Return text in lowercase, with no diacritics, and with no leading or trailing whitespace
 const getNormalizedText = (text) => {
   return text
@@ -39,4 +54,8 @@ const getCreditCardProvider = ({ number }) => {
   return creditCardProviders.unknown;
 };
 
-export { getNormalizedText, getCreditCardProvider };
+export {
+  getAsPhoneNumber,
+  getNormalizedText,
+  getCreditCardProvider,
+};
